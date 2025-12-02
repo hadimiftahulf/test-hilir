@@ -96,11 +96,11 @@ export default function Header({
 
           <BreadcrumbTrail items={breadcrumb} />
           <div className="flex-1" />
-          <GlobalActions />
-          <div className="hidden md:block w-[min(42vw,420px)]">
+          {/* <GlobalActions /> */}
+          {/* <div className="hidden md:block w-[min(42vw,420px)]">
             <SearchBar onSearch={handleSearch} />
-          </div>
-          <Notifications items={notifications} />
+          </div> */}
+          {/* <Notifications items={notifications} /> */}
           <ThemeToggle />
           <div className="hidden sm:block">
             <LocaleSwitcher />

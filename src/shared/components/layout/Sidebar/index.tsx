@@ -51,7 +51,7 @@ export default function Sidebar({
         className="flex flex-col"
         style={{ height: "calc(100vh - 64px - 56px)" }}
       >
-        <AttendanceCard
+        {/* <AttendanceCard
           collapsed={collapsed}
           user={
             user ?? { id: "", name: "", avatarUrl: "", email: "", roles: [] }
@@ -63,7 +63,7 @@ export default function Sidebar({
           canCheckOut={canCheckOut}
           onClockIn={handleClockIn}
           onClockOut={handleClockOut}
-        />
+        /> */}
 
         <SidebarMenu collapsed={collapsed} />
       </div>
