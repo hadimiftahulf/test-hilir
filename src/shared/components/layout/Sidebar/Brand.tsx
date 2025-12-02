@@ -12,7 +12,7 @@ export default function Brand({ collapsed }: { collapsed: boolean }) {
       {!collapsed && (
         <div className="min-w-0">
           <div className="text-[15px] font-semibold text-neutral-900 dark:text-neutral-50 truncate">
-            Inovasi Dinamika Solusi
+            PT Hillir
           </div>
           <div className="text-xs text-neutral-500 dark:text-neutral-400 truncate">
             Employee Self-Service

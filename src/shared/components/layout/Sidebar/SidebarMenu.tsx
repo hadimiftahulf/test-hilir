@@ -1,24 +1,92 @@
 "use client";
 
-import React from "react";
+import React, { useMemo, useCallback } from "react";
 import { Menu, theme, Badge } from "antd";
 import type { MenuProps } from "antd";
 import { usePathname, useRouter } from "next/navigation";
 import { useLocale } from "next-intl";
+import { useSession } from "next-auth/react";
 import { MENU, SETTINGS_ITEM } from "./config";
 
-export default function SidebarMenu({ collapsed }: { collapsed: boolean }) {
+// 1. Definisi Tipe untuk menghindari 'any'
+interface MenuItem {
+  key: string;
+  label: string;
+  path: string;
+  icon: React.ReactNode;
+  permission?: string;
+  badge?: number;
+}
+
+// Interface untuk User Session agar TS tahu ada properti 'permissions'
+interface SessionUser {
+  permissions?: string[];
+  name?: string | null;
+  email?: string | null;
+  image?: string | null;
+}
+
+interface SidebarMenuProps {
+  collapsed: boolean;
+}
+
+export default function SidebarMenu({ collapsed }: SidebarMenuProps) {
   const { token } = theme.useToken();
   const router = useRouter();
   const pathname = usePathname() || "/";
   const locale = useLocale() as "en" | "id";
+  const { data: session } = useSession();
 
-  const buildHref = (path: string) => `/${locale}/${path}`;
-  const activeKey =
-    MENU.find((m) => pathname.startsWith(buildHref(m.path)))?.key ??
-    "dashboard";
+  // 2. Ambil permission dengan Type Casting yang aman
+  const userPermissions = (session?.user as SessionUser)?.permissions || [];
 
-  const items: MenuProps["items"] = [
+  // 3. Helper normalisasi URL (Gunakan useCallback agar stabil di dependency array)
+  const buildHref = useCallback(
+    (path: string) => {
+      const rawPath = `/${locale}/${path}`;
+      return rawPath.replace(/\/+/g, "/");
+    },
+    [locale]
+  );
+
+  // 4. Logic Active Key (Dependency array lengkap)
+  const activeKey = useMemo(() => {
+    // Casting MENU ke tipe MenuItem[] agar method sort & find dikenali
+    const menuItems = MENU as MenuItem[];
+
+    // Copy array sebelum sort agar tidak memutasi array asli (Best Practice)
+    const sortedMenu = [...menuItems].sort(
+      (a, b) => b.path.length - a.path.length
+    );
+
+    const found = sortedMenu.find((m) => {
+      const fullPath = buildHref(m.path);
+      return pathname === fullPath || pathname.startsWith(`${fullPath}/`);
+    });
+
+    if (pathname.startsWith(buildHref(SETTINGS_ITEM?.path) as string)) {
+      return SETTINGS_ITEM.key;
+    }
+
+    return found?.key ?? "dashboard";
+  }, [pathname, buildHref]);
+
+  // 5. Logic Filter Menu
+  const filteredMenu = useMemo(() => {
+    const menuItems = MENU as MenuItem[];
+
+    return menuItems.filter((item) => {
+      if (!item.permission) return true;
+      return userPermissions.includes(item.permission);
+    });
+  }, [userPermissions]);
+
+  const showSettings =
+    !SETTINGS_ITEM.permission ||
+    userPermissions.includes(SETTINGS_ITEM.permission as string);
+
+  // 6. Generate Menu Items
+  const menuItems: MenuProps["items"] = [
     {
       key: "section-main",
       type: "group",
@@ -29,7 +97,7 @@ export default function SidebarMenu({ collapsed }: { collapsed: boolean }) {
       ) : (
         ""
       ),
-      children: MENU.map((m) => ({
+      children: filteredMenu.map((m) => ({
         key: m.key,
         icon: m.icon,
         label: (
@@ -47,22 +115,29 @@ export default function SidebarMenu({ collapsed }: { collapsed: boolean }) {
         onClick: () => router.push(buildHref(m.path)),
       })),
     },
-    { type: "divider" as const },
-    {
-      key: SETTINGS_ITEM.key,
-      icon: SETTINGS_ITEM.icon,
-      label: SETTINGS_ITEM.label,
-      onClick: () => router.push(buildHref(SETTINGS_ITEM.path)),
-    },
+    // Spread operator kondisional yang aman
+    ...(filteredMenu.length > 0 && showSettings
+      ? [{ type: "divider" as const }]
+      : []),
+    ...(showSettings
+      ? [
+          {
+            key: SETTINGS_ITEM.key,
+            icon: SETTINGS_ITEM.icon,
+            label: SETTINGS_ITEM.label,
+            onClick: () => router.push(buildHref(SETTINGS_ITEM.path)),
+          },
+        ]
+      : []),
   ];
 
   return (
-    <div className="px-2 pb-3 flex-1 overflow-auto no-scrollbar">
+    <div className="flex-1 overflow-auto px-2 pb-3 no-scrollbar">
       <Menu
         mode="inline"
         selectedKeys={[activeKey]}
         inlineCollapsed={collapsed}
-        items={items}
+        items={menuItems}
         className="!border-0"
       />
     </div>

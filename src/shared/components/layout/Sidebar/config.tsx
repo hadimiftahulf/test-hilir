@@ -1,49 +1,53 @@
 import {
-  AppstoreOutlined,
   DashboardOutlined,
-  TeamOutlined,
-  WalletOutlined,
-  FileProtectOutlined,
+  UserOutlined,
+  SafetyCertificateOutlined,
   SettingOutlined,
+  BarChartOutlined,
 } from "@ant-design/icons";
-import type { MenuItem } from "../types/sidebar";
+import { APP_ROUTES } from "@/config/routes"; // 👈 Import SSOT
 
-export const MENU: MenuItem[] = [
+// Helper untuk cari config route berdasarkan path
+const getRoute = (pathKey: string) =>
+  APP_ROUTES.find((r) => r.path === pathKey);
+
+export const MENU = [
   {
     key: "dashboard",
     label: "Dashboard",
-    path: "dashboard",
     icon: <DashboardOutlined />,
+    ...getRoute("/dashboard"),
   },
   {
-    key: "employees",
+    key: "users",
     label: "Employees",
-    path: "employees",
-    icon: <TeamOutlined />,
+    icon: <UserOutlined />,
+    ...getRoute("/users"),
   },
   {
-    key: "analytics",
-    label: "Analytics",
-    path: "analytics",
-    icon: <AppstoreOutlined />,
+    key: "roles",
+    label: "Roles & Access",
+    icon: <SafetyCertificateOutlined />,
+    ...getRoute("/roles"),
   },
   {
-    key: "payslips",
-    label: "Payslips",
-    path: "payslips",
-    icon: <WalletOutlined />,
+    key: "calculate",
+    label: "Calculate",
+    icon: <BarChartOutlined />,
+    ...getRoute("/calculate"),
   },
   {
-    key: "legal",
-    label: "Legal",
-    path: "legal",
-    icon: <FileProtectOutlined />,
+    key: "reports",
+    label: "Reports",
+    icon: <BarChartOutlined />,
+    ...getRoute("/reports"),
   },
 ];
 
 export const SETTINGS_ITEM = {
   key: "settings",
   label: "Settings",
-  path: "settings",
   icon: <SettingOutlined />,
+  path: getRoute("/settings")?.path as string,
+  ...getRoute("/settings"),
 };
