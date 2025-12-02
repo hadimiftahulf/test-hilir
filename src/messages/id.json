@@ -19,11 +19,19 @@
   "auth": {
     "invalid": "Email atau kata sandi salah",
     "welcome": "Selamat datang kembali!",
-    "subtitle": "Akses akun Anda"
+    "subtitle": "Akses akun Anda",
+    "noAccount": "Belum punya akun?",
+    "signUp": "Daftar",
+    "signIn": "Masuk",
+    "haveAccount": "Sudah punya akun?"
   },
   "common": {
     "unexpected_error": "Terjadi kesalahan. Coba lagi.",
-    "or": "atau"
+    "or": "atau",
+    "save": "Simpan",
+    "cancel": "Batal",
+    "delete": "Hapus",
+    "edit": "Ubah"
   },
   "legal": {
     "privacy": "Privasi",
@@ -39,31 +47,65 @@
     "helpCenter": "Pusat Bantuan",
     "tipPrefix": "Tips: Tekan",
     "tipSuffix": "untuk membuka pencarian global.",
-    "footerNote": "© {year} Inovasi Dinamika Solusi"
+    "footerNote": "© {year} PT Hillir"
   },
   "employees": {
-    "title": "Karyawan",
-    "subtitle": "Kelola direktori orang",
-    "toolbar": { "add": "Tambah Karyawan" },
-    "filters": {
-      "searchPlaceholder": "Cari nama, email, atau posisi",
-      "department": "Departemen",
-      "status": "Status"
+    "title": "Karyawan / Pengguna",
+    "subtitle": "Kelola akses sistem dan peran pengguna.",
+    "toolbar": {
+      "add": "Tambah User"
     },
-    "view": { "grid": "Grid", "table": "Table" },
+    "modal": {
+      "addTitle": "Tambah Pengguna Baru",
+      "editTitle": "Edit Pengguna"
+    },
+    "form": {
+      "name": "Nama Lengkap",
+      "email": "Email",
+      "password": "Password",
+      "passwordOptional": "Password (Opsional)",
+      "passwordHelp": "Kosongkan jika tidak ingin mengubah password",
+      "roles": "Peran / Jabatan"
+    },
+    "validation": {
+      "required": "Wajib diisi",
+      "emailInvalid": "Format email tidak valid",
+      "passwordRequired": "Password wajib untuk pengguna baru",
+      "passwordMin": "Minimal 6 karakter",
+      "roleRequired": "Pilih minimal satu peran"
+    },
+    "messages": {
+      "roleError": "Gagal mengambil data peran",
+      "saveError": "Gagal menyimpan data",
+      "createSuccess": "Pengguna berhasil dibuat",
+      "updateSuccess": "Pengguna berhasil diperbarui",
+      "deleteSuccess": "Pengguna berhasil dihapus",
+      "deleteError": "Gagal menghapus pengguna"
+    },
+    "view": {
+      "grid": "Grid",
+      "table": "Tabel"
+    },
+    "filters": {
+      "searchPlaceholder": "Cari nama atau email...",
+      "rolePlaceholder": "Filter Peran"
+    },
     "table": {
       "employee": "Karyawan",
-      "position": "Posisi",
-      "department": "Departemen",
-      "status": "Status"
+      "roles": "Peran / Jabatan",
+      "joined": "Bergabung",
+      "noRole": "Tanpa Peran"
     },
-    "status": {
-      "Active": "Aktif",
-      "On Leave": "Cuti",
-      "Inactive": "Tidak Aktif"
+    "card": {
+      "joined": "Bergabung Sejak"
     },
-    "actions": { "viewProfile": "Lihat Profil", "edit": "Edit" },
-    "card": { "hired": "Tanggal Diterima", "phone": "Telepon" }
+    "actions": {
+      "edit": "Edit Data",
+      "delete": "Hapus User",
+      "deleteTitle": "Hapus User?",
+      "deleteConfirm": "Apakah Anda yakin ingin menghapus {name}? Tindakan ini tidak dapat dibatalkan."
+    },
+    "empty": "Tidak ada data pengguna ditemukan"
   },
   "dashboard": {
     "greet": {
@@ -101,5 +143,62 @@
       "newEmployee": "Karyawan Baru",
       "uploadPayslip": "Upload Slip Gaji"
     }
+  },
+  "roles": {
+    "title": "Peran & Akses",
+    "subtitle": "Tentukan peran dan izin pengguna.",
+    "toolbar": { "add": "Peran Baru" },
+    "filters": { "searchPlaceholder": "Cari peran..." },
+    "table": {
+      "roleName": "Nama Peran",
+      "description": "Deskripsi",
+      "permissions": "Level Akses"
+    },
+    "modal": {
+      "addTitle": "Buat Peran Baru",
+      "editTitle": "Edit Peran"
+    },
+    "form": {
+      "roleName": "Nama Peran",
+      "description": "Deskripsi",
+      "permissionsLabel": "Level Akses"
+    },
+    "validation": { "required": "Wajib diisi" },
+    "actions": {
+      "edit": "Edit Peran",
+      "delete": "Hapus",
+      "deleteTitle": "Hapus Peran?",
+      "deleteConfirm": "Apakah Anda yakin? Pengguna dengan peran ini mungkin kehilangan akses."
+    },
+    "messages": {
+      "createSuccess": "Peran berhasil dibuat",
+      "updateSuccess": "Peran berhasil diperbarui",
+      "deleteSuccess": "Peran berhasil dihapus",
+      "deleteError": "Gagal menghapus peran"
+    },
+    "empty": "Tidak ada peran ditemukan"
+  },
+  "calculate": {
+    "title": "Parameter Kampanye",
+    "adSpend": "Pengeluaran Iklan (Bulanan)",
+    "cpr": "Cost per Result (CPR)",
+    "aov": "Nilai Pesanan Rata-rata",
+    "productPrice": "Harga Produk (Ref)",
+    "save": "Simpan Perhitungan",
+    "resultTitle": "Hasil Prediksi",
+    "resultSubtitle": "Berdasarkan parameter kampanye Anda",
+    "roi": "Laba atas Investasi (ROI)",
+    "positive": "Profitabilitas Positif",
+    "negative": "Perlu Optimasi",
+    "revenue": "Total Pendapatan",
+    "profit": "Keuntungan Bersih",
+    "results": "Estimasi Sales (Results)",
+    "margin": "Margin per Result",
+    "analyze": "Analisis dengan AI",
+    "analyzing": "AI sedang berpikir...",
+    "insight": "AI Insight",
+    "saveSuccess": "Perhitungan disimpan!",
+    "saveError": "Gagal menyimpan data",
+    "aiError": "Gagal menghubungi AI"
   }
 }

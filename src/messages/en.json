@@ -21,11 +21,73 @@
   "auth": {
     "invalid": "Invalid email or password",
     "welcome": "Welcome back!",
-    "subtitle": "Access your account"
+    "subtitle": "Access your account",
+    "noAccount": "Don't have an account?",
+    "signUp": "Sign Up",
+    "signIn": "Sign In",
+    "haveAccount": "Already have an account?"
   },
   "common": {
     "unexpected_error": "Unexpected error. Please try again.",
     "or": "or"
+  },
+  "employees": {
+    "title": "Employees / Users",
+    "subtitle": "Manage system users and access roles.",
+    "toolbar": {
+      "add": "Add User"
+    },
+    "modal": {
+      "addTitle": "Add New User",
+      "editTitle": "Edit User"
+    },
+    "form": {
+      "name": "Full Name",
+      "email": "Email",
+      "password": "Password",
+      "passwordOptional": "Password (Optional)",
+      "passwordHelp": "Leave blank to keep current password",
+      "roles": "Roles"
+    },
+    "validation": {
+      "required": "This field is required",
+      "emailInvalid": "Invalid email format",
+      "passwordRequired": "Password is required for new users",
+      "passwordMin": "Minimum 6 characters",
+      "roleRequired": "Please select at least one role"
+    },
+    "messages": {
+      "roleError": "Failed to load roles",
+      "saveError": "Failed to save user",
+      "createSuccess": "User created successfully",
+      "updateSuccess": "User updated successfully",
+      "deleteSuccess": "User deleted successfully",
+      "deleteError": "Failed to delete user"
+    },
+    "view": {
+      "grid": "Grid",
+      "table": "Table"
+    },
+    "filters": {
+      "searchPlaceholder": "Search by name or email...",
+      "rolePlaceholder": "Filter Role"
+    },
+    "table": {
+      "employee": "Employee",
+      "roles": "Roles",
+      "joined": "Joined Date",
+      "noRole": "No Role"
+    },
+    "card": {
+      "joined": "Joined"
+    },
+    "actions": {
+      "edit": "Edit User",
+      "delete": "Delete User",
+      "deleteTitle": "Delete User?",
+      "deleteConfirm": "Are you sure you want to delete {name}? This action cannot be undone."
+    },
+    "empty": "No users found"
   },
   "legal": {
     "privacy": "Privacy",
@@ -42,31 +104,7 @@
     "helpCenter": "Help Center",
     "tipPrefix": "Tip: Press",
     "tipSuffix": "to open global search.",
-    "footerNote": "© {year} Inovasi Dinamika Solusi"
-  },
-  "employees": {
-    "title": "Employees",
-    "subtitle": "Manage your people directory",
-    "toolbar": { "add": "Add Employee" },
-    "filters": {
-      "searchPlaceholder": "Search name, email, or position",
-      "department": "Department",
-      "status": "Status"
-    },
-    "view": { "grid": "Grid", "table": "Table" },
-    "table": {
-      "employee": "Employee",
-      "position": "Position",
-      "department": "Department",
-      "status": "Status"
-    },
-    "status": {
-      "Active": "Active",
-      "On Leave": "On Leave",
-      "Inactive": "Inactive"
-    },
-    "actions": { "viewProfile": "View profile", "edit": "Edit" },
-    "card": { "hired": "Hired Date", "phone": "Phone" }
+    "footerNote": "© {year} PT Hillir"
   },
   "dashboard": {
     "greet": {
@@ -104,5 +142,62 @@
       "newEmployee": "New Employee",
       "uploadPayslip": "Upload Payslip"
     }
+  },
+  "roles": {
+    "title": "Roles & Access",
+    "subtitle": "Define user roles and permissions.",
+    "toolbar": { "add": "New Role" },
+    "filters": { "searchPlaceholder": "Search roles..." },
+    "table": {
+      "roleName": "Role Name",
+      "description": "Description",
+      "permissions": "Access Level"
+    },
+    "modal": {
+      "addTitle": "Create New Role",
+      "editTitle": "Edit Role"
+    },
+    "form": {
+      "roleName": "Role Name",
+      "description": "Description",
+      "permissionsLabel": "Permissions Access"
+    },
+    "validation": { "required": "Required" },
+    "actions": {
+      "edit": "Edit Role",
+      "delete": "Delete",
+      "deleteTitle": "Delete Role?",
+      "deleteConfirm": "Are you sure? Users with this role might lose access."
+    },
+    "messages": {
+      "createSuccess": "Role created successfully",
+      "updateSuccess": "Role updated successfully",
+      "deleteSuccess": "Role deleted",
+      "deleteError": "Failed to delete role"
+    },
+    "empty": "No roles found"
+  },
+  "calculate": {
+    "title": "Campaign Parameters",
+    "adSpend": "Ad Spend (Monthly)",
+    "cpr": "Cost per Result (CPR)",
+    "aov": "Average Order Value",
+    "productPrice": "Product Price (Ref)",
+    "save": "Save Calculation",
+    "resultTitle": "Prediction Results",
+    "resultSubtitle": "Based on your campaign parameters",
+    "roi": "Return on Investment (ROI)",
+    "positive": "Positive Profitability",
+    "negative": "Optimization Needed",
+    "revenue": "Total Revenue",
+    "profit": "Net Profit",
+    "results": "Estimated Sales (Results)",
+    "margin": "Margin per Result",
+    "analyze": "Analyze with AI",
+    "analyzing": "AI is thinking...",
+    "insight": "AI Insight",
+    "saveSuccess": "Calculation saved!",
+    "saveError": "Failed to save data",
+    "aiError": "Failed to contact AI"
   }
 }
