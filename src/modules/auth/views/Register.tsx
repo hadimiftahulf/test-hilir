@@ -12,7 +12,7 @@ const COPYRIGHT_YEAR = new Date().getFullYear();
 
 export default function RegisterPage() {
   const { onSubmit, submitting } = useRegister();
-  const t = useTranslations(); // Pastikan key translasi ada (atau pakai hardcode string)
+  const t = useTranslations();
 
   return (
     <main className="relative flex min-h-screen w-full items-center justify-center overflow-hidden bg-neutral-50 dark:bg-neutral-950">
@@ -38,17 +38,17 @@ export default function RegisterPage() {
           footer={
             <div className="flex flex-col items-center gap-2">
               <span>
-                Already have an account?{" "}
+                {t("auth.haveAccount")}
                 <Link
                   href="en/auth/login"
                   className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
                 >
-                  Sign In
+                  {t("auth.signIn")}
                 </Link>
               </span>
 
               <span className="mt-4 text-xs text-neutral-400 dark:text-neutral-500">
-                © {COPYRIGHT_YEAR} Inovasi Dinamika Solusi
+                © {COPYRIGHT_YEAR} PT Hillir
               </span>
             </div>
           }

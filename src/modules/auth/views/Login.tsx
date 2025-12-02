@@ -6,6 +6,7 @@ import { useLogin } from "../hooks/useLogin";
 import { useTranslations } from "next-intl";
 import LocaleSwitcher from "@/shared/components/LocaleSwitcher";
 import ThemeToggle from "@/shared/components/ThemeToggle";
+import Link from "next/link";
 
 const COPYRIGHT_YEAR = new Date().getFullYear();
 
@@ -30,13 +31,21 @@ export default function Login() {
         onForgot={goForgot}
         submitting={submitting}
         footer={
-          <>
-            <span>© {COPYRIGHT_YEAR} Inovasi Dinamika Solusi</span>
-            <div className="space-x-3">
-              <a href="/privacy">Privacy</a>
-              <a href="/terms">Terms</a>
-            </div>
-          </>
+          <div className="flex flex-col items-center gap-2">
+            <span>
+              {t("auth.noAccount")}
+              <Link
+                href="/en/auth/register"
+                className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
+              >
+                {t("auth.signUp")}
+              </Link>
+            </span>
+
+            <span className="mt-4 text-xs text-neutral-400 dark:text-neutral-500">
+              © {COPYRIGHT_YEAR} PT Hillir
+            </span>
+          </div>
         }
       />
     </main>
