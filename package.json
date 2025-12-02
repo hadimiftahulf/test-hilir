@@ -17,6 +17,7 @@
   "dependencies": {
     "@ant-design/nextjs-registry": "^1.2.0",
     "@ant-design/v5-patch-for-react-19": "^1.0.3",
+    "@google/generative-ai": "^0.24.1",
     "@next-auth/typeorm-legacy-adapter": "^2.0.2",
     "antd": "^5.27.6",
     "bcrypt": "^6.0.0",
@@ -44,7 +45,6 @@
     "@types/react-dom": "^19",
     "babel-plugin-react-compiler": "1.0.0",
     "baseline-browser-mapping": "^2.8.32",
-    "dotenv": "^17.2.3",
     "eslint": "^9",
     "eslint-config-next": "16.0.1",
     "postcss": "^8.5.6",

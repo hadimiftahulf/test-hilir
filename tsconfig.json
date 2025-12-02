@@ -1,19 +1,23 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
+    "target": "ES2017", // ✅ Turun ke ES2017 untuk better decorator support
     "moduleResolution": "Bundler",
-    "experimentalDecorators": true,
-    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true, // ✅ Sudah ada
+    "emitDecoratorMetadata": true, // ✅ Sudah ada
     "esModuleInterop": true,
     "strict": true,
-    "lib": ["dom", "dom.iterable", "esnext"],
+    "lib": [
+      "dom",
+      "dom.iterable",
+      "esnext"
+    ],
     "allowJs": true,
     "skipLibCheck": true,
     "noEmit": true,
     "module": "esnext",
     "resolveJsonModule": true,
     "isolatedModules": true,
-    "jsx": "react-jsx",
+    "jsx": "react-jsx", // ✅ Ubah dari "react-jsx" ke "preserve" untuk Next.js
     "incremental": true,
     "plugins": [
       {
@@ -21,11 +25,21 @@
       }
     ],
     "paths": {
-      "@shared/*": ["./src/shared/*"],
-      "@employees/*": ["./src/modules/employees/*"],
-      "@auth/*": ["./src/modules/auth/*"],
-      "@dashboard/*": ["./src/modules/dashboard/*"],
-      "@/*": ["./src/*"],
+      "@shared/*": [
+        "./src/shared/*"
+      ],
+      "@employees/*": [
+        "./src/modules/employees/*"
+      ],
+      "@auth/*": [
+        "./src/modules/auth/*"
+      ],
+      "@dashboard/*": [
+        "./src/modules/dashboard/*"
+      ],
+      "@/*": [
+        "./src/*"
+      ]
     }
   },
   "include": [
@@ -36,5 +50,7 @@
     ".next/dev/types/**/*.ts",
     "**/*.mts"
   ],
-  "exclude": ["node_modules"]
+  "exclude": [
+    "node_modules"
+  ]
 }
