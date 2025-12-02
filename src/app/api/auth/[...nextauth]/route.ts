@@ -1,4 +1,5 @@
 import { verifyUserLogin } from "@/server/services/auth.service";
+import { getUserPermissions } from "@/server/services/permission.service";
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
 
@@ -36,8 +37,6 @@ export const authOptions: NextAuthOptions = {
     async jwt({ token, user }) {
       if (user) {
         token.uid = user.id;
-        token.roles = (user as any).roles;
-        token.permissions = (user as any).permissionKeys;
       }
       return token;
     },
@@ -45,7 +44,8 @@ export const authOptions: NextAuthOptions = {
       if (session.user) {
         session.user.id = token.uid as string;
         (session.user as any).roles = token.roles;
-        (session.user as any).permissions = token.permissions;
+        const permissions = await getUserPermissions(token.uid as string);
+        (session.user as any).permissions = permissions;
       }
       return session;
     },

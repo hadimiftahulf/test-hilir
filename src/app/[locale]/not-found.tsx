@@ -81,7 +81,7 @@ export default function NotFound() {
             <span>
               {t("footerNote", {
                 year: new Date().getFullYear(),
-                defaultValue: `© ${new Date().getFullYear()} Inovasi Dinamika Solusi`,
+                defaultValue: `© ${new Date().getFullYear()} PT Hillir`,
               })}
             </span>
           </span>

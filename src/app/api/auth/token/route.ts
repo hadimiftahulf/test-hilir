@@ -36,7 +36,6 @@ export async function POST(req: Request) {
         uid: user.id,
         email: user.email,
         name: user.name,
-        roles: user.roles,
         permissions: (user as any).permissionKeys, // Masukkan permission juga
         sub: user.id, // Subject ID (Standar JWT)
       },
