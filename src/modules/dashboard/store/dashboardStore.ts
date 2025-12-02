@@ -9,6 +9,11 @@ import type {
   PayslipItem,
 } from "../types/dashbordTypes";
 
+interface RoiStatus {
+  score: number;
+  alert: string;
+}
+
 type State = {
   greeting: string;
   days: string;
@@ -17,6 +22,13 @@ type State = {
   activities: ActivityItem[];
   tasks: TaskItem[];
   payslips: PayslipItem[];
+  roiStatus?: RoiStatus;
+  topUsers?: Array<{
+    id: number;
+    name: string;
+    avatarUrl: string;
+    roiScore: number;
+  }>;
 };
 
 type Actions = {

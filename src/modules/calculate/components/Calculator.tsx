@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useEffect } from "react";
 import {
   Card,
   Row,
@@ -44,11 +44,24 @@ type AiResponse = {
   }[];
 };
 
+// Tipe Data History (Asumsi)
+interface CalculationHistory {
+  id: string;
+  adSpend: number;
+  costPerResult: number;
+  averageOrderValue: number;
+  productPrice: number;
+}
+
+interface CalculatorProps {
+  onSaveSuccess: () => void;
+  selectedHistory: CalculationHistory | null;
+}
+
 export default function Calculator({
   onSaveSuccess,
-}: {
-  onSaveSuccess: () => void;
-}) {
+  selectedHistory,
+}: CalculatorProps) {
   const t = useTranslations("calculate");
   const { token } = theme.useToken();
   const [messageApi, contextHolder] = message.useMessage();
@@ -79,6 +92,17 @@ export default function Calculator({
       marginPerResult,
     };
   }, [adSpend, cpr, aov]);
+
+  // --- HISTORY AUTO-FILL ---
+  useEffect(() => {
+    if (selectedHistory) {
+      setAdSpend(Math.round(selectedHistory.adSpend || 0));
+      setCpr(Math.round(selectedHistory.costPerResult || 0));
+      setAov(Math.round(selectedHistory.averageOrderValue || 0));
+      setProductPrice(Math.round(selectedHistory.productPrice || 0));
+      setAiResult(null);
+    }
+  }, [selectedHistory]);
 
   const toIDR = (val: number) =>
     new Intl.NumberFormat("id-ID", {
@@ -159,7 +183,7 @@ export default function Calculator({
           styles={{ body: { padding: 24 } }}
         >
           <div className="flex flex-col gap-6">
-            {/* Input Ad Spend */}
+            {/* 1. Input Ad Spend */}
             <div>
               <div className="flex justify-between mb-1">
                 <Text
@@ -168,7 +192,6 @@ export default function Calculator({
                 >
                   {t("adSpend")}
                 </Text>
-                <Text strong>{toIDR(adSpend)}</Text>
               </div>
               <Slider
                 min={100000}
@@ -179,9 +202,21 @@ export default function Calculator({
                 tooltip={{ formatter: (val) => toIDR(val || 0) }}
                 trackStyle={{ background: token.colorPrimary }}
               />
+              <InputNumber
+                style={{ width: "100%" }}
+                size="large"
+                value={adSpend}
+                onChange={(v) => setAdSpend(v || 0)}
+                formatter={(value) =>
+                  `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                }
+                parser={(value) =>
+                  value?.replace(/Rp\s?|(\.*)/g, "") as unknown as number
+                }
+              />
             </div>
 
-            {/* Input CPR */}
+            {/* 2. Input CPR */}
             <div>
               <div className="flex justify-between mb-1">
                 <Text
@@ -190,7 +225,6 @@ export default function Calculator({
                 >
                   {t("cpr")}
                 </Text>
-                <Text strong>{toIDR(cpr)}</Text>
               </div>
               <Slider
                 min={1000}
@@ -199,6 +233,17 @@ export default function Calculator({
                 value={cpr}
                 onChange={setCpr}
                 trackStyle={{ background: token.colorWarning }}
+              />
+              <InputNumber
+                style={{ width: "100%" }}
+                value={cpr}
+                formatter={(value) =>
+                  `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+                }
+                parser={(value) =>
+                  value?.replace(/Rp\s?|(\.*)/g, "") as unknown as number
+                }
+                onChange={(v) => setCpr(v || 0)}
               />
             </div>
 
