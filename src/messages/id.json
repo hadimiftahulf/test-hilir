@@ -31,7 +31,11 @@
     "save": "Simpan",
     "cancel": "Batal",
     "delete": "Hapus",
-    "edit": "Ubah"
+    "analyze": "Analisis",
+    "edit": "Ubah",
+    "task": "Tugas",
+    "priority": "Prioritas",
+    "viewAllUsers": "Lihat Semua Pengguna"
   },
   "legal": {
     "privacy": "Privasi",
@@ -120,7 +124,10 @@
       "recentActivity": "Aktivitas Terbaru",
       "teamProgress": "Progress Tim",
       "myTasks": "Tugas Saya",
-      "payslips": "Slip Gaji"
+      "payslips": "Slip Gaji",
+
+      "roiStatus": "Status ROI Rata-rata",
+      "topUsers": "User Terakhir Dibuat"
     },
     "stats": {
       "avgCheckIn": "Check-In Rata-rata",
@@ -141,7 +148,14 @@
     "actions": {
       "createRequest": "Buat Permintaan",
       "newEmployee": "Karyawan Baru",
-      "uploadPayslip": "Upload Slip Gaji"
+      "uploadPayslip": "Upload Slip Gaji",
+      "newCalculation": "Hitungan Baru",
+      "addUser": "Tambah Pengguna"
+    },
+    "status": {
+      "dataUnavailable": "Data Belum Tersedia",
+      "checkCalculator": "Cek Kalkulator untuk optimasi",
+      "user": "Pengguna"
     }
   },
   "roles": {
