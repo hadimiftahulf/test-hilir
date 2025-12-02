@@ -17,3 +17,8 @@ export class Permission extends Base {
   // String unik, mis: "users:read:any"
   @Index() @Column() key!: string;
 }
+Object.defineProperty(Permission, "name", {
+  value: "Permission",
+  writable: false,
+  configurable: false,
+});

@@ -1,38 +1,66 @@
 import { type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import AppDataSource from "@/server/db/datasource";
+import { initializeDB } from "@/server/db/datasource"; // ✅ gunakan helper
 import { User } from "@/server/db/entities/User";
 
+const isSecure =
+  process.env.NODE_ENV === "production" &&
+  !process.env.NEXTAUTH_URL?.includes("http://localhost:3000");
 export const authOptions: NextAuthOptions = {
   session: { strategy: "jwt" },
   providers: [
     Credentials({
       name: "Email & Password",
-      credentials: { email: {}, password: {} },
-      async authorize(c) {
-        if (!c?.email || !c?.password) return null;
-        if (!AppDataSource.isInitialized) await AppDataSource.initialize();
-        const repo = AppDataSource.getRepository(User);
-        const u = await repo
-          .createQueryBuilder("u")
-          .addSelect("u.passwordHash")
-          .where("u.email = :email", { email: c.email })
-          .getOne();
-        if (!u) return null;
-        if (!(await compare(String(c.password), u.passwordHash))) return null;
-        return {
-          id: u.id,
-          email: u.email,
-          name: u.name,
-        } as any;
+      credentials: {
+        email: { label: "Email", type: "email" },
+        password: { label: "Password", type: "password" },
+      },
+      async authorize(credentials) {
+        if (!credentials?.email || !credentials?.password) {
+          return null;
+        }
+
+        try {
+          // ✅ Gunakan helper function
+          const dataSource = await initializeDB();
+          const userRepo = dataSource.getRepository(User);
+
+          const user = await userRepo
+            .createQueryBuilder("user")
+            .addSelect("user.passwordHash")
+            .where("user.email = :email", { email: credentials.email })
+            .getOne();
+
+          if (!user) {
+            return null;
+          }
+
+          const isPasswordValid = await compare(
+            credentials.password,
+            user.passwordHash
+          );
+
+          if (!isPasswordValid) {
+            return null;
+          }
+
+          return {
+            id: user.id,
+            email: user.email,
+            name: user.name,
+          };
+        } catch (error) {
+          console.error("Auth error:", error);
+          return null;
+        }
       },
     }),
   ],
   callbacks: {
     async jwt({ token, user }) {
       if (user) {
-        token.uid = (user as any).id;
+        token.uid = user.id;
       }
       return token;
     },
@@ -42,6 +70,22 @@ export const authOptions: NextAuthOptions = {
       }
       return session;
     },
+  },
+  cookies: {
+    sessionToken: {
+      name: "next-auth.session-token",
+      options: {
+        httpOnly: true,
+        sameSite: "lax",
+        path: "/",
+        // KUNCI PERBAIKAN: Gunakan flag yang kita hitung tadi
+        secure: isSecure,
+      },
+    },
+  },
+  pages: {
+    signIn: "/login",
+    error: "/auth/error",
   },
   secret: process.env.NEXTAUTH_SECRET,
 };

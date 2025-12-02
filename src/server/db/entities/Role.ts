@@ -15,3 +15,8 @@ export class Role extends Base {
 
   @ManyToMany(() => User, (u) => u.roles) users!: User[];
 }
+Object.defineProperty(Role, "name", {
+  value: "Role",
+  writable: false,
+  configurable: false,
+});

@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
+import { getUserPermissions } from "../services/permission.service";
 
 // Tipe User yang sekarang punya Permissions
 export type AuthUser = {
@@ -35,6 +36,7 @@ export async function withAuth(
         { status: 401 }
       );
     }
+    const permissions = await getUserPermissions(token.uid as string);
 
     // 2. CONSTRUCT USER OBJECT
     const user: AuthUser = {
@@ -43,7 +45,7 @@ export async function withAuth(
       name: token.name as string,
       roles: (token.roles as any[]) || [],
       // Ambil array permission dari token
-      permissions: (token.permissions as string[]) || [],
+      permissions: permissions,
     };
 
     // 3. PERMISSION CHECK (RBAC Level Database)

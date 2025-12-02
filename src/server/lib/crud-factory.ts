@@ -1,4 +1,3 @@
-// src/lib/crud-factory.ts
 import { NextRequest, NextResponse } from "next/server";
 import {
   ObjectLiteral,
@@ -8,9 +7,8 @@ import {
   FindOptionsOrder,
 } from "typeorm";
 import { AppDataSource, initializeDB } from "@/server/db/datasource";
-import { withAuth } from "./api-wrapper";
+import { withAuth } from "./api-wrapper"; // Sesuaikan path import ini jika perlu
 
-// Tipe Config untuk Factory
 type CrudOptions<T extends ObjectLiteral> = {
   entity: EntityTarget<T>;
   permissions: {
@@ -20,23 +18,19 @@ type CrudOptions<T extends ObjectLiteral> = {
     delete?: string;
   };
   relations?: string[];
-
-  // HOOKS
   beforeSave?: (
     data: DeepPartial<T>,
     req: NextRequest
   ) => Promise<DeepPartial<T>>;
-
   transform?: (data: T) => unknown;
 };
 
 // ==================================================================
-// 1. FACTORY: GET ALL & POST
+// 1. FACTORY: GET ALL & POST (Tidak butuh params ID)
 // ==================================================================
 export function createCollectionHandlers<T extends ObjectLiteral>(
   options: CrudOptions<T>
 ) {
-  // HANDLER GET (LIST)
   const GET = async (req: NextRequest) => {
     return withAuth(req, { permission: options.permissions.read }, async () => {
       await initializeDB();
@@ -44,11 +38,9 @@ export function createCollectionHandlers<T extends ObjectLiteral>(
 
       const data = await repo.find({
         relations: options.relations,
-        // Double casting untuk bypass error TS2322
         order: { createdAt: "DESC" } as unknown as FindOptionsOrder<T>,
       });
 
-      // Gunakan arrow function eksplisit untuk map
       const sanitizedData = options.transform
         ? data.map((item) => options.transform!(item))
         : data;
@@ -57,7 +49,6 @@ export function createCollectionHandlers<T extends ObjectLiteral>(
     });
   };
 
-  // HANDLER POST (CREATE)
   const POST = async (req: NextRequest) => {
     return withAuth(
       req,
@@ -65,8 +56,6 @@ export function createCollectionHandlers<T extends ObjectLiteral>(
       async (_user, apiReq) => {
         await initializeDB();
         const repo = AppDataSource.getRepository(options.entity);
-
-        // Casting ke DeepPartial<T> agar sesuai dengan repo.create
         let body = (await apiReq.json()) as DeepPartial<T>;
 
         if (options.beforeSave) {
@@ -92,12 +81,13 @@ export function createCollectionHandlers<T extends ObjectLiteral>(
 }
 
 // ==================================================================
-// 2. FACTORY: GET ONE, PUT, DELETE (Butuh ID)
+// 2. FACTORY: GET ONE, PUT, DELETE (WAJIB AWAIT PARAMS DI SINI)
 // ==================================================================
 export function createItemHandlers<T extends ObjectLiteral>(
   options: CrudOptions<T>
 ) {
-  type Ctx = { params: { id: string } };
+  // 👇 Definisi tipe untuk Next.js 15/16: params adalah Promise
+  type Ctx = { params: Promise<{ id: string }> };
 
   // HANDLER GET ONE
   const GET = async (req: NextRequest, { params }: Ctx) => {
@@ -105,14 +95,11 @@ export function createItemHandlers<T extends ObjectLiteral>(
       await initializeDB();
       const repo = AppDataSource.getRepository(options.entity);
 
-      // FIX ERROR TS2352: Conversion of type '{ id: string; }' to type 'FindOptionsWhere<T>'
-      // Kita gunakan 'as unknown' dulu sebagai jembatan.
-      const whereCondition = {
-        id: params.id,
-      } as unknown as FindOptionsWhere<T>;
+      // 👇 WAJIB AWAIT
+      const { id } = await params;
 
       const item = await repo.findOne({
-        where: whereCondition,
+        where: { id } as unknown as FindOptionsWhere<T>,
         relations: options.relations,
       });
 
@@ -133,14 +120,14 @@ export function createItemHandlers<T extends ObjectLiteral>(
         await initializeDB();
         const repo = AppDataSource.getRepository(options.entity);
 
+        // 👇 WAJIB AWAIT
+        const { id } = await params;
+
         let body = (await apiReq.json()) as DeepPartial<T>;
 
-        // FIX ERROR TS2352: Sama seperti di atas
-        const whereCondition = {
-          id: params.id,
-        } as unknown as FindOptionsWhere<T>;
-
-        const item = await repo.findOneBy(whereCondition);
+        const item = await repo.findOneBy({
+          id,
+        } as unknown as FindOptionsWhere<T>);
 
         if (!item)
           return NextResponse.json({ error: "Not found" }, { status: 404 });
@@ -167,7 +154,16 @@ export function createItemHandlers<T extends ObjectLiteral>(
         await initializeDB();
         const repo = AppDataSource.getRepository(options.entity);
 
-        const result = await repo.delete(params.id);
+        // 👇👇👇 PERBAIKAN UTAMA DI SINI 👇👇👇
+        // Sebelumnya: repo.delete(params.id) -> Error karena params.id undefined
+        // Sekarang: await params dulu, baru ambil id
+        const { id } = await params;
+
+        if (!id) {
+          return NextResponse.json({ error: "Invalid ID" }, { status: 400 });
+        }
+
+        const result = await repo.delete(id);
 
         if (result.affected === 0) {
           return NextResponse.json({ error: "Not found" }, { status: 404 });

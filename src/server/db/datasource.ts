@@ -1,30 +1,41 @@
 import "reflect-metadata";
 import { DataSource } from "typeorm";
-
 import { User } from "./entities/User";
 import { Role } from "./entities/Role";
 import { Permission } from "./entities/Permission";
 import { Calculation } from "./entities/Calculation";
 
-const AppDataSource = new DataSource({
+// ✅ PENTING: Di production, JANGAN pakai path-based entities
+// Selalu import langsung entities sebagai class reference
+export const AppDataSource = new DataSource({
   type: "postgres",
   url: process.env.DATABASE_URL,
+
+  // ✅ Import langsung entities (BUKAN path string)
   entities: [User, Role, Permission, Calculation],
-  migrations: [],
+
+  // ✅ CRITICAL: Di production HARUS false!
   synchronize: false,
-  logging: false,
+
+  // ✅ Untuk production, pakai migrations
+  migrations: [__dirname + "/migrations/*.{ts,js}"],
+  migrationsRun: false, // Jalankan manual dengan CLI
+
+  logging: process.env.NODE_ENV === "development",
 });
+
+let isInitialized = false;
+
 export const initializeDB = async () => {
-  if (!AppDataSource.isInitialized) {
+  if (!isInitialized && !AppDataSource.isInitialized) {
     try {
       await AppDataSource.initialize();
-      console.log("✅ Database initialized");
+      isInitialized = true;
+      console.log("✅ Database connected");
     } catch (error) {
-      console.error("❌ Error initializing database:", error);
+      console.error("❌ Database connection failed:", error);
       throw error;
     }
   }
   return AppDataSource;
 };
-export default AppDataSource;
-export { AppDataSource, initializeDB };
