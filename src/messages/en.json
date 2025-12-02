@@ -1,0 +1,108 @@
+{
+  "title": { "dashboard": "Dashboard", "login": "Sign In" },
+  "desc": {
+    "theme": "Light/Dark mode is synchronized: Tailwind + Ant Design."
+  },
+  "btn": {
+    "testMessage": "Test Message",
+    "login": "Sign In",
+    "logout": "Sign Out",
+    "signing_in": "Signing in..."
+  },
+  "form": {
+    "email": "Email",
+    "password": "Password",
+    "remember": "Remember me",
+    "email_required": "Email is required",
+    "email_invalid": "Please enter a valid email",
+    "password_required": "Password is required",
+    "password_min": "Password must be at least 6 characters"
+  },
+  "auth": {
+    "invalid": "Invalid email or password",
+    "welcome": "Welcome back!",
+    "subtitle": "Access your account"
+  },
+  "common": {
+    "unexpected_error": "Unexpected error. Please try again.",
+    "or": "or"
+  },
+  "legal": {
+    "privacy": "Privacy",
+    "terms": "Terms"
+  },
+
+  "notFound": {
+    "title": "Page not found",
+    "description": "The page you’re looking for doesn’t exist. Try going back or search instead.",
+    "searchPlaceholder": "Search modules, employees, documents…",
+    "searchBtn": "Search",
+    "back": "Go Back",
+    "goHome": "Go to Dashboard",
+    "helpCenter": "Help Center",
+    "tipPrefix": "Tip: Press",
+    "tipSuffix": "to open global search.",
+    "footerNote": "© {year} Inovasi Dinamika Solusi"
+  },
+  "employees": {
+    "title": "Employees",
+    "subtitle": "Manage your people directory",
+    "toolbar": { "add": "Add Employee" },
+    "filters": {
+      "searchPlaceholder": "Search name, email, or position",
+      "department": "Department",
+      "status": "Status"
+    },
+    "view": { "grid": "Grid", "table": "Table" },
+    "table": {
+      "employee": "Employee",
+      "position": "Position",
+      "department": "Department",
+      "status": "Status"
+    },
+    "status": {
+      "Active": "Active",
+      "On Leave": "On Leave",
+      "Inactive": "Inactive"
+    },
+    "actions": { "viewProfile": "View profile", "edit": "Edit" },
+    "card": { "hired": "Hired Date", "phone": "Phone" }
+  },
+  "dashboard": {
+    "greet": {
+      "morning": "Good Morning",
+      "afternoon": "Good Afternoon",
+      "evening": "Good Evening",
+      "night": "Good Evening"
+    },
+    "title": {
+      "attendanceToday": "Attendance Today",
+      "today": "Today",
+      "recentActivity": "Recent Activity",
+      "teamProgress": "Team Progress",
+      "myTasks": "My Tasks",
+      "payslips": "Payslips"
+    },
+    "stats": {
+      "avgCheckIn": "Avg Check-In",
+      "avgCheckOut": "Avg Check-Out",
+      "present": "Present",
+      "wfh": "WFH"
+    },
+    "kpi": {
+      "employees": "Employees",
+      "attendanceRate": "Attendance Rate",
+      "pendingApprovals": "Pending Approvals",
+      "activeContracts": "Active Contracts"
+    },
+    "events": {
+      "backendInterview": "Backend Interview",
+      "contractReview": "Contract Review"
+    },
+    "actions": {
+      "createRequest": "Create Request",
+      "newEmployee": "New Employee",
+      "uploadPayslip": "Upload Payslip"
+    }
+  }
+}

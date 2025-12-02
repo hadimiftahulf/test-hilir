@@ -1,0 +1,105 @@
+{
+  "title": { "dashboard": "Dasbor", "login": "Masuk" },
+  "desc": { "theme": "Mode Terang/Gelap tersinkron: Tailwind + Ant Design." },
+  "btn": {
+    "testMessage": "Tes Pesan",
+    "login": "Masuk",
+    "logout": "Keluar",
+    "signing_in": "Memasukkan..."
+  },
+  "form": {
+    "email": "Email",
+    "password": "Kata sandi",
+    "remember": "Ingat saya",
+    "email_required": "Email wajib diisi",
+    "email_invalid": "Masukkan email yang valid",
+    "password_required": "Kata sandi wajib diisi",
+    "password_min": "Minimal 6 karakter"
+  },
+  "auth": {
+    "invalid": "Email atau kata sandi salah",
+    "welcome": "Selamat datang kembali!",
+    "subtitle": "Akses akun Anda"
+  },
+  "common": {
+    "unexpected_error": "Terjadi kesalahan. Coba lagi.",
+    "or": "atau"
+  },
+  "legal": {
+    "privacy": "Privasi",
+    "terms": "Ketentuan"
+  },
+  "notFound": {
+    "title": "Halaman tidak ditemukan",
+    "description": "URL yang kamu akses tidak tersedia. Coba kembali atau lakukan pencarian.",
+    "searchPlaceholder": "Cari modul, karyawan, dokumen…",
+    "searchBtn": "Cari",
+    "back": "Kembali",
+    "goHome": "Ke Dashboard",
+    "helpCenter": "Pusat Bantuan",
+    "tipPrefix": "Tips: Tekan",
+    "tipSuffix": "untuk membuka pencarian global.",
+    "footerNote": "© {year} Inovasi Dinamika Solusi"
+  },
+  "employees": {
+    "title": "Karyawan",
+    "subtitle": "Kelola direktori orang",
+    "toolbar": { "add": "Tambah Karyawan" },
+    "filters": {
+      "searchPlaceholder": "Cari nama, email, atau posisi",
+      "department": "Departemen",
+      "status": "Status"
+    },
+    "view": { "grid": "Grid", "table": "Table" },
+    "table": {
+      "employee": "Karyawan",
+      "position": "Posisi",
+      "department": "Departemen",
+      "status": "Status"
+    },
+    "status": {
+      "Active": "Aktif",
+      "On Leave": "Cuti",
+      "Inactive": "Tidak Aktif"
+    },
+    "actions": { "viewProfile": "Lihat Profil", "edit": "Edit" },
+    "card": { "hired": "Tanggal Diterima", "phone": "Telepon" }
+  },
+  "dashboard": {
+    "greet": {
+      "morning": "Selamat Pagi",
+      "afternoon": "Selamat Siang",
+      "evening": "Selamat Sore",
+      "night": "Selamat Malam"
+    },
+    "title": {
+      "attendanceToday": "Kehadiran Hari Ini",
+      "today": "Hari Ini",
+      "recentActivity": "Aktivitas Terbaru",
+      "teamProgress": "Progress Tim",
+      "myTasks": "Tugas Saya",
+      "payslips": "Slip Gaji"
+    },
+    "stats": {
+      "avgCheckIn": "Check-In Rata-rata",
+      "avgCheckOut": "Check-Out Rata-rata",
+      "present": "Hadir",
+      "wfh": "WFH"
+    },
+    "kpi": {
+      "employees": "Karyawan",
+      "attendanceRate": "Tingkat Kehadiran",
+      "pendingApprovals": "Menunggu Persetujuan",
+      "activeContracts": "Kontrak Aktif"
+    },
+    "events": {
+      "backendInterview": "Interview Backend",
+      "contractReview": "Review Kontrak"
+    },
+    "actions": {
+      "createRequest": "Buat Permintaan",
+      "newEmployee": "Karyawan Baru",
+      "uploadPayslip": "Upload Slip Gaji"
+    }
+  }
+}
