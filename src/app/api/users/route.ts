@@ -5,8 +5,8 @@ const handlers = createCollectionHandlers<User>({
   entity: User,
   relations: ["roles"], // Load role user saat get list
   permissions: {
-    read: "users:read:any",
-    create: "users:create:any",
+    read: "users:read",
+    create: "users:create",
   },
   beforeSave: async (data, req) => {
     if ((data as any).password) {

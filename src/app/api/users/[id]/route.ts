@@ -6,9 +6,9 @@ const handlers = createItemHandlers<User>({
   entity: User,
   relations: ["roles"],
   permissions: {
-    read: "users:read:any",
-    update: "users:update:any",
-    delete: "users:delete:any",
+    read: "users:read",
+    update: "users:update",
+    delete: "users:delete",
   },
   beforeSave: async (data) => {
     if ((data as any).password) {

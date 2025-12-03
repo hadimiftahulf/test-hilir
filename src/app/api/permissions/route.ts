@@ -5,7 +5,8 @@ import { createCollectionHandlers } from "@/server/lib/crud-factory";
 export const { GET, POST } = createCollectionHandlers<Permission>({
   entity: Permission,
   permissions: {
-    read: "roles:read:any", // Menggunakan izin baca role saja cukup, atau buat spesifik
-    create: "roles:manage:any", // Hanya admin level tinggi
+    read: "roles:read", // Menggunakan izin baca role saja cukup, atau buat spesifik
+    create: "roles:manage", // Hanya admin level tinggi
   },
+  scopeField: "user",
 });

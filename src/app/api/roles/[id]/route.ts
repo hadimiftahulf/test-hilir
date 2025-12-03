@@ -5,10 +5,11 @@ const handlers = createItemHandlers<Role>({
   entity: Role,
   relations: ["permissions"],
   permissions: {
-    read: "roles:read:any",
-    update: "roles:update:any",
-    delete: "roles:delete:any",
+    read: "roles:read",
+    update: "roles:update",
+    delete: "roles:delete",
   },
+  scopeField: "user",
   beforeSave: async (data) => {
     if ((data as any).permissionIds) {
       data.permissions = (data as any).permissionIds.map((id: string) => ({

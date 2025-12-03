@@ -6,9 +6,10 @@ const handlers = createCollectionHandlers<Calculation>({
   entity: Calculation,
   relations: ["user"], // Opsional: jika admin ingin lihat siapa yang hitung
   permissions: {
-    read: "calculate:read:own", // User biasa cuma boleh lihat data sendiri (Logic filter ada di factory/wrapper)
-    create: "calculate:create:own",
+    read: "calculate:read", // User biasa cuma boleh lihat data sendiri (Logic filter ada di factory/wrapper)
+    create: "calculate:create",
   },
+  scopeField: "user",
   // 🔥 HOOK PENTING: Assign User ID otomatis
   beforeSave: async (data, req) => {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });

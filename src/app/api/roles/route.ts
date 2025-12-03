@@ -5,9 +5,10 @@ const handlers = createCollectionHandlers<Role>({
   entity: Role,
   relations: ["permissions"], // Penting: Admin perlu lihat role ini punya izin apa aja
   permissions: {
-    read: "roles:read:any",
-    create: "roles:create:any",
+    read: "roles:read",
+    create: "roles:create",
   },
+  scopeField: "user",
   beforeSave: async (data) => {
     // Link Permission IDs jika dikirim dari frontend
     // Format input: { name: "Editor", permissionIds: ["uuid1", "uuid2"] }

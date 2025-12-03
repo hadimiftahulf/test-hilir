@@ -8,4 +8,5 @@ export const { GET, PUT, DELETE } = createItemHandlers<Calculation>({
     update: "calculate:create:own", // Biasanya history kalkulator jarang diedit, tapi disiapkan saja
     delete: "calculate:delete:own", // User boleh hapus history sendiri
   },
+  scopeField: "user",
 });
