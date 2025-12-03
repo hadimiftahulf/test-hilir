@@ -77,13 +77,19 @@ export default function SidebarMenu({ collapsed }: SidebarMenuProps) {
 
     return menuItems.filter((item) => {
       if (!item.permission) return true;
-      return userPermissions.includes(item.permission);
+
+      // Cek apakah ada permission yang match dengan prefix
+      return userPermissions.some((userPerm) =>
+        userPerm.startsWith(item.permission as string)
+      );
     });
   }, [userPermissions]);
 
   const showSettings =
     !SETTINGS_ITEM.permission ||
-    userPermissions.includes(SETTINGS_ITEM.permission as string);
+    userPermissions.some((userPerm) =>
+      userPerm.startsWith(SETTINGS_ITEM.permission as string)
+    );
 
   // 6. Generate Menu Items
   const menuItems: MenuProps["items"] = [
