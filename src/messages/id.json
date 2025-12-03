@@ -213,6 +213,7 @@
     "insight": "AI Insight",
     "saveSuccess": "Perhitungan disimpan!",
     "saveError": "Gagal menyimpan data",
-    "aiError": "Gagal menghubungi AI"
+    "aiError": "Gagal menghubungi AI",
+    "cprTarget": "CPR Maksimum (BE)"
   }
 }

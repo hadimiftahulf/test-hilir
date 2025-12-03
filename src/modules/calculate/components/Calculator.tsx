@@ -84,12 +84,16 @@ export default function Calculator({
     const roi = adSpend > 0 ? (profit / adSpend) * 100 : 0;
     const marginPerResult = aov - cpr;
 
+    // 👇 PENAMBAHAN: CPR Target = Max BE-CPR (yaitu AOV)
+    const cprTarget = aov;
+
     return {
       results: Math.floor(results),
       revenue,
       profit,
       roi,
       marginPerResult,
+      cprTarget, // Tambahkan ini
     };
   }, [adSpend, cpr, aov]);
 
@@ -368,6 +372,14 @@ export default function Calculator({
                     </div>
                     <div className="text-xl font-semibold">
                       {stats.results.toLocaleString()} Sales
+                    </div>
+                  </div>
+                  <div>
+                    <div className="text-xs text-neutral-400 uppercase tracking-wide mb-1">
+                      {t("cprTarget")}
+                    </div>
+                    <div className="text-xl font-semibold">
+                      {toIDR(stats.cprTarget)}
                     </div>
                   </div>
                   <div>

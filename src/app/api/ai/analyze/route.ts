@@ -1,12 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
-import { withAuth } from "@/server/lib/api-wrapper"; // Pastikan path wrapper benar
+import { withAuth } from "@/server/lib/api-wrapper";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
 
 export async function POST(req: NextRequest) {
   // Gunakan Wrapper Auth agar aman
-  return withAuth(req, null, async (user, request) => {
+  // 🎯 FIX: Ganti argument function agar menerima user, effectiveScope, dan request asli.
+  return withAuth(req, null, async (user, _scope, request) => {
     try {
       const body = await request.json();
       const { adSpend, cpr, aov, roi, profit } = body;

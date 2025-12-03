@@ -212,6 +212,7 @@
     "insight": "AI Insight",
     "saveSuccess": "Calculation saved!",
     "saveError": "Failed to save data",
-    "aiError": "Failed to contact AI"
+    "aiError": "Failed to contact AI",
+    "cprTarget": "CPR Maksimum (BE)"
   }
 }
