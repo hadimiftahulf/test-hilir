@@ -13,6 +13,7 @@ const toFloat = (val: any) => parseFloat(val || "0");
 
 // Endpoint untuk mengambil semua data yang dibutuhkan dashboard dalam 1x hit
 export async function GET(req: NextRequest) {
+  // Gunakan basePermission 'dashboard:read'. Wrapper akan menentukan effectiveScope.
   return withAuth(
     req,
     { basePermission: "dashboard:read" },
@@ -30,35 +31,34 @@ export async function GET(req: NextRequest) {
       }
 
       // ----------------------------------------------------
-      // Kueri Utama: Avg ROI (Base untuk Kueri Agregat)
+      // Kueri Utama: Avg ROI (Diterapkan Scoping)
       // ----------------------------------------------------
 
       let avgRoiQuery = calcRepo
         .createQueryBuilder("calc")
         .select("AVG(calc.roiPercentage)", "avgRoi");
 
-      // Injeksi WHERE untuk AVG ROI
+      // Injeksi WHERE untuk AVG ROI (Hanya jika scope = 'own')
       if (effectiveScope === "own") {
-        // Ganti 'calc.userId' dengan 'calc.userId' atau 'calc.user_id' sesuai skema DB Anda
-        // Saya menggunakan 'calc.userId' karena ini nama properti relasi yang paling sering dipakai
+        // Asumsi nama kolom Foreign Key adalah 'userId' di tabel 'calculations'
         avgRoiQuery = avgRoiQuery.where("calc.userId = :userId");
       }
 
       const avgRoiResult = await avgRoiQuery
-        .setParameters(queryParams) // Set parameter ke QueryBuilder
+        .setParameters(queryParams)
         .getRawOne();
 
       const avgRoi = toFloat(avgRoiResult.avgRoi);
 
       // ----------------------------------------------------
-      // Kueri Tambahan: Critical Calcs
+      // Kueri Tambahan: Critical Calcs (Diterapkan Scoping)
       // ----------------------------------------------------
 
       let criticalCalcsQuery = calcRepo
         .createQueryBuilder("calc")
         .where("calc.roiPercentage < :minRoi");
 
-      // Injeksi AND WHERE untuk Critical Calcs (Jika scope = 'own')
+      // Injeksi AND WHERE untuk Critical Calcs (Hanya jika scope = 'own')
       if (effectiveScope === "own") {
         criticalCalcsQuery = criticalCalcsQuery.andWhere(
           "calc.userId = :userId"
@@ -66,31 +66,36 @@ export async function GET(req: NextRequest) {
       }
 
       const criticalCalcs = await criticalCalcsQuery
-        .setParameters(queryParams) // Set parameter yang sama
+        .setParameters(queryParams)
         .getCount();
-
-      // ----------------------------------------------------
-      // Kueri Aktivitas & User (Sama)
-      // ----------------------------------------------------
-
       const totalUsers = await userRepo.count();
+
+      // A. Top Users (5 User terbaru untuk list)
       const topUsers = await userRepo.find({
-        /* ... */
+        select: ["id", "name", "email", "avatarUrl", "createdAt"],
+        order: { createdAt: "DESC" },
+        take: 5,
+        relations: ["roles"],
       });
+
+      // B. Ambil 5 user yang baru mendaftar (untuk Activity Log)
       const recentRegistrations = await userRepo.find({
-        /* ... */
+        select: ["id", "name", "createdAt"],
+        order: { createdAt: "DESC" },
+        take: 5,
       });
+
+      // C. Ambil 5 perhitungan ROI terbaru (untuk Activity Log)
       const recentCalculations = await calcRepo.find({
-        /* ... */
-      }); // Query ini tidak perlu where clause scoping
+        select: ["id", "roiPercentage", "createdAt"],
+        order: { createdAt: "DESC" },
+        take: 5,
+        relations: ["user"], // Wajib ambil relasi user untuk mapping nama
+      });
 
       // ====================================================================
       // 2. MAPPING & LOGIC
       // ====================================================================
-
-      // ... (Logika mapping dan response sama) ...
-
-      // ... (Logika mapping dan response sama) ...
 
       const roiAlert =
         avgRoi < 0
@@ -101,6 +106,7 @@ export async function GET(req: NextRequest) {
               1
             )}%). Pertimbangkan scaling.`;
 
+      // MAPPING TOP USERS
       const formattedTopUsers = topUsers.map((u: any) => ({
         id: u.id,
         name: u.name,
@@ -110,6 +116,7 @@ export async function GET(req: NextRequest) {
         createdAt: u.createdAt,
       }));
 
+      // MAPPING ACTIVITIES (Registration)
       const registrationActivities = recentRegistrations.map((u: any) => ({
         timestamp: u.createdAt,
         user: u.name,
@@ -118,6 +125,7 @@ export async function GET(req: NextRequest) {
         color: "#3b82f6",
       }));
 
+      // MAPPING ACTIVITIES (Calculation)
       const calculationActivities = recentCalculations.map((c: any) => {
         const userName = c.user?.name || "Anonymous User";
         const roi = toFloat(c.roiPercentage);
@@ -131,6 +139,7 @@ export async function GET(req: NextRequest) {
         };
       });
 
+      // Gabungkan dan sort
       const allActivities = [
         ...registrationActivities,
         ...calculationActivities,
@@ -178,10 +187,12 @@ export async function GET(req: NextRequest) {
         },
 
         activities: allActivities,
+
         systemTasks: [
           { task: "Approve 3 pending access requests", priority: "High" },
           { task: "Review 2 critical access changes", priority: "Medium" },
         ],
+
         topUsers: formattedTopUsers,
       };
 
