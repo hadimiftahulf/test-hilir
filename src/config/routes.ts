@@ -1,6 +1,6 @@
 export type AppRoute = {
   path: string;
-  permission?: string; // Key permission dari database (cth: 'users:read:any')
+  permission?: string; // Key permission dari database (cth: 'users:read')
 };
 
 // 1. Route Publik (Tidak butuh login)
@@ -16,27 +16,27 @@ export const PUBLIC_ROUTES = [
 export const APP_ROUTES: AppRoute[] = [
   {
     path: "/dashboard",
-    permission: "dashboard:read:any",
+    permission: "dashboard:read",
   },
   {
     path: "/users",
-    permission: "users:read:any",
+    permission: "users:read",
   },
   {
     path: "/roles",
-    permission: "roles:read:any",
+    permission: "roles:read",
   },
   {
     path: "/calculate",
-    permission: "calculate:read:any",
+    permission: "calculate:read",
   },
   {
     path: "/settings",
-    permission: "settings:read:own",
+    permission: "settings:read",
   },
   {
     path: "/reports",
-    permission: "reports:read:any",
+    permission: "reports",
   },
 ];
 
