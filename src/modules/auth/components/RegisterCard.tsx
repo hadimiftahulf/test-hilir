@@ -22,7 +22,6 @@ export default function RegisterCard({
 
   return (
     <Card className="w-full max-w-md rounded-2xl shadow-lg border border-neutral-200/70 dark:border-neutral-800/70 bg-white/85 dark:bg-neutral-900/80 backdrop-blur">
-      {/* --- Header Logo --- */}
       <div className="flex items-center gap-3 mb-4">
         <div className="size-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 grid place-content-center text-white font-semibold shadow">
           Hilir
@@ -48,7 +47,6 @@ export default function RegisterCard({
         requiredMark={false}
         autoComplete="off"
       >
-        {/* Field: Full Name */}
         <Form.Item
           name="name"
           label="Full Name"
@@ -64,7 +62,6 @@ export default function RegisterCard({
           />
         </Form.Item>
 
-        {/* Field: Email */}
         <Form.Item
           name="email"
           label="Email"
@@ -80,7 +77,6 @@ export default function RegisterCard({
           />
         </Form.Item>
 
-        {/* Field: Password */}
         <Form.Item
           name="password"
           label="Password"
@@ -96,7 +92,6 @@ export default function RegisterCard({
           />
         </Form.Item>
 
-        {/* Field: Confirm Password */}
         <Form.Item
           name="confirmPassword"
           label="Confirm Password"

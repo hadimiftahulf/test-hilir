@@ -108,13 +108,10 @@ export default function CalculatePage() {
 
   return (
     <div className="p-4 md:p-6 max-w-7xl mx-auto space-y-8">
-      {/* 👇 3. RENDER CONTEXT HOLDER DI SINI */}
       {contextHolder}
 
-      {/* 1. Calculator Core */}
       <Calculator onSaveSuccess={fetchHistory} selectedHistory={selectedCalc} />
 
-      {/* 2. History Log */}
       <div className="pt-8 border-t border-neutral-200 dark:border-neutral-800">
         <Typography.Title level={4} className="mb-4">
           Riwayat Perhitungan

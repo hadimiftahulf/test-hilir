@@ -7,7 +7,7 @@ import {
   FindOptionsOrder,
 } from "typeorm";
 import { AppDataSource, initializeDB } from "@/server/db/datasource";
-import { withAuth, AuthUser, AccessScope } from "./api-wrapper";
+import { withAuth } from "./api-wrapper";
 
 type CrudOptions<T extends ObjectLiteral> = {
   entity: EntityTarget<T>;

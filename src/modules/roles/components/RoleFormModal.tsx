@@ -189,7 +189,6 @@ export default function RoleFormModal({
         }}
       >
         <Form form={form} layout="vertical" preserve={false} className="mt-4">
-          {/* --- Basic Info --- */}
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <Form.Item
               name="name"
@@ -210,7 +209,6 @@ export default function RoleFormModal({
             Access Controls
           </Divider>
 
-          {/* --- Permission List --- */}
           {loadingPerms ? (
             <div className="flex justify-center py-12">
               <Spin size="large" />
@@ -230,7 +228,6 @@ export default function RoleFormModal({
                     key={resource}
                     className="border border-neutral-200 dark:border-neutral-800 rounded-xl overflow-hidden bg-white dark:bg-neutral-900/50"
                   >
-                    {/* Header Group */}
                     <div className="flex items-center justify-between px-4 py-3 bg-neutral-50 dark:bg-neutral-800/50 border-b border-neutral-100 dark:border-neutral-800">
                       <div className="flex items-center gap-2">
                         <Checkbox
@@ -254,7 +251,6 @@ export default function RoleFormModal({
                       </span>
                     </div>
 
-                    {/* Permissions Grid */}
                     <div className="p-4 grid grid-cols-2 md:grid-cols-3 gap-y-3 gap-x-4">
                       {perms.map((p) => {
                         const isChecked = checkedIds.includes(p.id);

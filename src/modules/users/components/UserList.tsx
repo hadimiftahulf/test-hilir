@@ -211,11 +211,9 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
 
   return (
     <div className="space-y-4">
-      {/* 👇 3. PASTIKAN CONTEXT HOLDER DIRENDER DI SINI */}
       {contextHolderModal}
       {contextHolderMessage}
 
-      {/* --- MODAL FORM --- */}
       <UserFormModal
         open={isModalOpen}
         onCancel={() => setIsModalOpen(false)}
@@ -223,7 +221,6 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
         initialData={editingUser}
       />
 
-      {/* --- HEADER --- */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <Typography.Title
@@ -254,7 +251,6 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
         </Space>
       </div>
 
-      {/* --- FILTER --- */}
       <div className="flex flex-col gap-2 md:flex-row md:items-center md:gap-3 bg-white dark:bg-neutral-900 p-1 rounded-xl">
         <Input
           allowClear
@@ -275,7 +271,6 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
         />
       </div>
 
-      {/* --- CONTENT --- */}
       {loading && !data.length ? (
         <div className="h-64 grid place-content-center">
           <Spin size="large" />

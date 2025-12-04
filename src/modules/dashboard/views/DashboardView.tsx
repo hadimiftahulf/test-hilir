@@ -63,7 +63,6 @@ export default function DashboardView() {
   return (
     <main className="min-h-screen bg-white dark:bg-neutral-900 text-neutral-900 dark:text-neutral-100 p-4 md:p-6">
       <div className="max-w-[1200px] mx-auto space-y-6">
-        {/* --- HEADER & QUICK ACTIONS --- */}
         <div className="flex items-center justify-between">
           <div>
             <Title level={4} className="!m-0 dark:text-white">
@@ -92,7 +91,6 @@ export default function DashboardView() {
           </div>
         </div>
 
-        {/* --- 1. KPI CARDS --- */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
           {loading &&
             Array.from({ length: 4 }).map((_, i) => <Card loading key={i} />)}
@@ -100,12 +98,8 @@ export default function DashboardView() {
             normalizedKpis.map((k: any) => <KpiCard key={k.title} {...k} />)}
         </div>
 
-        {/* --- 2. MAIN CONTENT GRID (ROI, ACTIVITY, USERS) --- */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-4">
-          {/* KOLOM KIRI (Besar): ROI STATUS & TOP USERS */}
-          {/* 👇 PERBAIKAN DI SINI: Gunakan flex flex-col gap-6 */}
           <div className="lg:col-span-2 flex flex-col gap-6">
-            {/* A. ROI STATUS CARD (Tidak perlu mt- lagi) */}
             <Card
               title={t("title.roiStatus")}
               className="border-neutral-200/70 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm"
@@ -156,7 +150,6 @@ export default function DashboardView() {
               </div>
             </Card>
 
-            {/* D. TOP USERS/NEW ACCESSES (Hapus mt-6 karena gap-6 sudah ada) */}
             <Card
               title={t("title.topUsers")}
               className="border-neutral-200/70 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm"
@@ -193,9 +186,7 @@ export default function DashboardView() {
             </Card>
           </div>
 
-          {/* KOLOM KANAN (Kecil): RECENT ACTIVITY & SYSTEM TASKS */}
           <div className="space-y-4">
-            {/* B. RECENT ACTIVITY (System Events) */}
             <Card
               title={t("title.recentActivity")}
               className="border-neutral-200/70 dark:border-neutral-800 bg-white dark:bg-neutral-900 shadow-sm"

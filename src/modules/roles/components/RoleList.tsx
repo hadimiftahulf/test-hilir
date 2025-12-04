@@ -142,7 +142,6 @@ export default function RoleList({ data, loading, onRefresh }: RoleListProps) {
         initialData={editingRole}
       />
 
-      {/* HEADER & TOOLBAR */}
       <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
         <div>
           <Typography.Title

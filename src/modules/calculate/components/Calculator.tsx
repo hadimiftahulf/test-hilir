@@ -172,7 +172,6 @@ export default function Calculator({
     <Row gutter={[24, 24]}>
       {contextHolder}
 
-      {/* ================= KIRI: INPUT FORM ================= */}
       <Col xs={24} lg={9} xl={8}>
         <Card
           title={<span className="font-semibold text-lg">{t("title")}</span>}
@@ -180,7 +179,6 @@ export default function Calculator({
           styles={{ body: { padding: 24 } }}
         >
           <div className="flex flex-col gap-6">
-            {/* 1. Input Ad Spend */}
             <div>
               <div className="flex justify-between mb-1">
                 <Text
@@ -213,7 +211,6 @@ export default function Calculator({
               />
             </div>
 
-            {/* 2. Input CPR */}
             <div>
               <div className="flex justify-between mb-1">
                 <Text
@@ -244,7 +241,6 @@ export default function Calculator({
               />
             </div>
 
-            {/* Inputs Lainnya */}
             <div className="grid grid-cols-2 gap-4">
               <div>
                 <Text
@@ -304,13 +300,10 @@ export default function Calculator({
         </Card>
       </Col>
 
-      {/* ================= KANAN: STATS & AI ================= */}
       <Col xs={24} lg={15} xl={16}>
         <div className="flex flex-col gap-6 h-full">
-          {/* 1. HASIL STATISTIK */}
           <Card className="shadow-sm rounded-2xl border-neutral-200 dark:border-neutral-800 bg-white dark:bg-neutral-900">
             <Row gutter={[24, 24]} align="middle">
-              {/* ROI Big Number */}
               <Col
                 xs={24}
                 md={10}
@@ -336,7 +329,6 @@ export default function Calculator({
                 </Tag>
               </Col>
 
-              {/* Detail Stats */}
               <Col xs={24} md={14}>
                 <div className="grid grid-cols-2 gap-y-6 gap-x-4">
                   <div>
@@ -388,7 +380,6 @@ export default function Calculator({
             </Row>
           </Card>
 
-          {/* 2. AI INTELLIGENCE CARD */}
           <Card
             className="flex-1 shadow-sm rounded-2xl border-neutral-200 dark:border-neutral-800 overflow-hidden relative"
             styles={{
@@ -399,7 +390,6 @@ export default function Calculator({
               },
             }}
           >
-            {/* Header AI */}
             <div className="flex items-center justify-between mb-6">
               <div className="flex items-center gap-3">
                 <div className="size-10 rounded-full bg-gradient-to-br from-purple-500 to-indigo-600 flex items-center justify-center text-white shadow-lg shadow-indigo-500/30">
@@ -415,7 +405,6 @@ export default function Calculator({
                 </div>
               </div>
 
-              {/* Health Score Gauge (Jika ada result) */}
               {aiResult && (
                 <div className="text-right">
                   <div className="text-xs text-neutral-400 uppercase font-semibold">
@@ -439,7 +428,6 @@ export default function Calculator({
               )}
             </div>
 
-            {/* Content Area */}
             <div className="flex-1 relative">
               {!aiResult && !aiLoading && (
                 <div className="h-full flex flex-col items-center justify-center text-center p-8 bg-neutral-50 dark:bg-neutral-900/50 rounded-xl border border-dashed border-neutral-200 dark:border-neutral-700">
@@ -475,7 +463,6 @@ export default function Calculator({
 
               {aiResult && (
                 <div className="animate-in fade-in slide-in-from-bottom-4 duration-700">
-                  {/* Executive Summary */}
                   <div className="bg-blue-50 dark:bg-blue-900/20 p-4 rounded-xl border border-blue-100 dark:border-blue-800 mb-6">
                     <div className="flex items-center gap-2 mb-2">
                       <FireFilled className="text-orange-500" />
@@ -493,7 +480,7 @@ export default function Calculator({
                       &quot;{aiResult.executive_summary}&quot;
                     </p>
                   </div>
-                  {/* Action Plan Cards */}
+
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     {aiResult.action_plan?.map((plan, idx) => (
                       <div
