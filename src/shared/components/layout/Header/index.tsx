@@ -1,14 +1,11 @@
 "use client";
 
 import React from "react";
-import { Layout, Tooltip, Button } from "antd";
+import { Layout, Button } from "antd";
 import { MenuOutlined } from "@ant-design/icons";
 import { useRouter } from "next/navigation";
 import { useBreadcrumb } from "../hooks/useBreadcrumb";
 import BreadcrumbTrail from "./BreadcrumbTrail";
-import SearchBar from "./SearchBar";
-import GlobalActions from "./GlobalActions";
-import Notifications from "./Notifications";
 import UserMenu from "./UserMenu";
 import MobileDrawer from "./MobileDrawer";
 import ThemeToggle from "@/shared/components/ThemeToggle";
@@ -81,7 +78,7 @@ export default function Header({
           "px-2 sm:px-3 md:px-4"
         )}
       >
-        <div className="mx-auto w-full max-w-[1400px] h-full flex items-center gap-2">
+        <div className="mx-auto w-full max-w-[1400px] h-full flex items-center gap-4">
           <div className="flex md:hidden">
             <Button
               aria-label="Open menu"
@@ -97,12 +94,12 @@ export default function Header({
           <BreadcrumbTrail items={breadcrumb} />
           <div className="flex-1" />
 
-          <div className="hidden md:block">
-            <ThemeToggle />
-          </div>
-
           <div className="hidden sm:block">
             <LocaleSwitcher />
+          </div>
+
+          <div className="hidden md:block">
+            <ThemeToggle />
           </div>
 
           <div className="hidden md:block">

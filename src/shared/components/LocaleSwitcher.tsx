@@ -54,7 +54,6 @@ export default function LocaleSwitcher() {
       })),
     [pathname, search, router, locale]
   );
-  const flipY = locale === "id" ? 180 : 0;
 
   return (
     <Dropdown
@@ -64,32 +63,21 @@ export default function LocaleSwitcher() {
       overlayClassName="!rounded-xl !overflow-hidden !shadow-lg !bg-white dark:!bg-neutral-900 dark:!text-neutral-200"
     >
       <Button
+        type="text" // Menggunakan type="text" agar seragam dengan ThemeToggle
         size="middle"
+        // PERUBAHAN UTAMA: Ubah dimensi menjadi w-9 h-9 agar seragam dengan ThemeToggle
         className={[
-          "relative rounded-full w-[46px] h-[40px] px-0 flex items-center justify-center",
-          "bg-neutral-100 dark:bg-neutral-900 border border-black/5 dark:border-white/10",
-          "hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all shadow-sm",
-          "focus-visible:ring-2 ring-brand/50 ring-offset-2",
+          "!w-9 !h-9 !rounded-full px-0 flex items-center justify-center", // Tambahkan ! di depan w/h/rounded-full untuk override
+          "hover:!bg-neutral-100 dark:hover:!bg-neutral-800 transition-colors", // Styling hover
         ].join(" ")}
       >
+        {/*
+          Menghapus span aria-hidden yang berisi background radial-gradient
+          Menghapus span ikon dengan styling 3D (transform: rotateY)
+        */}
         <span
-          aria-hidden
-          className="pointer-events-none absolute inset-0 rounded-full"
-          style={{
-            background:
-              "radial-gradient(120px 40px at 70% 30%, rgba(255,255,255,.35), transparent 60%)",
-            mixBlendMode: "overlay",
-          }}
-        />
-
-        <span
-          className={[
-            "text-lg leading-none relative z-[1]",
-            "transition-transform duration-500 [transform-style:preserve-3d]",
-            "motion-reduce:transition-none motion-reduce:transform-none",
-          ].join(" ")}
-          style={{ transform: `rotateY(${flipY}deg)` }}
-          aria-hidden={false}
+          className="text-lg leading-none relative z-[1]"
+          role="img" // Tambahkan role img untuk aksesibilitas
         >
           {current.flag}
         </span>
