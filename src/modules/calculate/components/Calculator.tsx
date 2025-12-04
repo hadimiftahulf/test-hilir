@@ -82,10 +82,12 @@ export default function Calculator({
     const revenue = results * aov;
     const profit = revenue - adSpend;
     const roi = adSpend > 0 ? (profit / adSpend) * 100 : 0;
-    const marginPerResult = aov - productPrice - cpr;
 
-    // 👇 PENAMBAHAN: CPR Target = Max BE-CPR (yaitu AOV)
-    const cprTarget = aov - productPrice;
+    // Margin per Result = AOV - CPR
+    const marginPerResult = aov - cpr;
+
+    // 🎯 CPR Target = 30% dari Harga Produk
+    const cprTarget = productPrice * 0.3;
 
     return {
       results: Math.floor(results),
@@ -93,9 +95,9 @@ export default function Calculator({
       profit,
       roi,
       marginPerResult,
-      cprTarget, // Tambahkan ini
+      cprTarget,
     };
-  }, [adSpend, cpr, aov]);
+  }, [adSpend, cpr, aov, productPrice]);
 
   // --- HISTORY AUTO-FILL ---
   useEffect(() => {
