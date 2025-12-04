@@ -1,4 +1,3 @@
-/* src/shared/store/useAuth.ts */
 "use client";
 import { create } from "zustand";
 import type { Session } from "next-auth";

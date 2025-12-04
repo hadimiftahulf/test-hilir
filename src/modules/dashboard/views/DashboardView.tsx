@@ -79,13 +79,7 @@ export default function DashboardView() {
             >
               {t("actions.newCalculation")}
             </Button>
-            <Button
-              type="primary"
-              icon={<PlusOutlined />}
-              onClick={() => {
-                /* Trigger Modal Add User */
-              }}
-            >
+            <Button type="primary" icon={<PlusOutlined />} onClick={() => {}}>
               {t("actions.addUser")}
             </Button>
           </div>
