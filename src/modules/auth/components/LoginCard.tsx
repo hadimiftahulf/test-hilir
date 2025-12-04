@@ -22,7 +22,7 @@ export default function LoginCard({
     <Card className="w-full max-w-md rounded-2xl shadow-lg border border-neutral-200/70 dark:border-neutral-800/70 bg-white/85 dark:bg-neutral-900/80 backdrop-blur">
       <div className="flex items-center gap-3 mb-4">
         <div className="size-10 rounded-xl bg-gradient-to-br from-blue-500 to-indigo-600 grid place-content-center text-white font-semibold shadow">
-          IDS
+          HILIR
         </div>
         <div className="leading-tight">
           <Typography.Title level={4} className="!mb-0">

@@ -37,7 +37,7 @@ export default function RegisterPage() {
               <span>
                 {t("auth.haveAccount")}
                 <Link
-                  href="en/auth/login"
+                  href="/en/auth/login"
                   className="font-medium text-blue-600 hover:text-blue-500 transition-colors"
                 >
                   {t("auth.signIn")}
