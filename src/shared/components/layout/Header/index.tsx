@@ -97,26 +97,16 @@ export default function Header({
           <BreadcrumbTrail items={breadcrumb} />
           <div className="flex-1" />
 
-          {/* <div className="hidden md:block w-[min(42vw,420px)]">
-            <SearchBar onSearch={handleSearch} />
-          </div> */}
+          <div className="hidden md:block">
+            <ThemeToggle />
+          </div>
 
-          <ThemeToggle />
           <div className="hidden sm:block">
             <LocaleSwitcher />
           </div>
-          <UserMenu user={currentUser} />
-          <div className="md:hidden">
-            <Tooltip title="Search">
-              <button
-                type="button"
-                onClick={() => setDrawerOpen(true)}
-                className="w-9 h-9 rounded-full flex items-center justify-center bg-neutral-100 hover:bg-neutral-200 dark:bg-neutral-800 dark:hover:bg-neutral-700 transition"
-                aria-label="Open search"
-              >
-                🔎
-              </button>
-            </Tooltip>
+
+          <div className="hidden md:block">
+            <UserMenu user={currentUser} />
           </div>
         </div>
       </AntHeader>
