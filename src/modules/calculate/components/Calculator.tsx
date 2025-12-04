@@ -82,10 +82,10 @@ export default function Calculator({
     const revenue = results * aov;
     const profit = revenue - adSpend;
     const roi = adSpend > 0 ? (profit / adSpend) * 100 : 0;
-    const marginPerResult = aov - cpr;
+    const marginPerResult = aov - productPrice - cpr;
 
     // 👇 PENAMBAHAN: CPR Target = Max BE-CPR (yaitu AOV)
-    const cprTarget = aov;
+    const cprTarget = aov - productPrice;
 
     return {
       results: Math.floor(results),
@@ -215,7 +215,7 @@ export default function Calculator({
                   `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
                 }
                 parser={(value) =>
-                  value?.replace(/Rp\s?|(\.*)/g, "") as unknown as number
+                  value?.replace(/Rp\s?|\./g, "") as unknown as number
                 }
               />
             </div>
@@ -245,7 +245,7 @@ export default function Calculator({
                   `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
                 }
                 parser={(value) =>
-                  value?.replace(/Rp\s?|(\.*)/g, "") as unknown as number
+                  value?.replace(/Rp\s?|\./g, "") as unknown as number
                 }
                 onChange={(v) => setCpr(v || 0)}
               />

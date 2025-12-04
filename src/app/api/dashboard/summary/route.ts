@@ -5,6 +5,7 @@ import { User } from "@/server/db/entities/User";
 import { Calculation } from "@/server/db/entities/Calculation";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import { FindOptionsWhere } from "typeorm";
 
 dayjs.extend(relativeTime);
 
@@ -30,35 +31,24 @@ export async function GET(req: NextRequest) {
         queryParams.userId = user.id;
       }
 
-      // ----------------------------------------------------
-      // Kueri Utama: Avg ROI (Diterapkan Scoping)
-      // ----------------------------------------------------
+      // Tentukan Kriteria Where (untuk find() method)
+      // Jika scope = 'any', ini akan menjadi {}
+      const userWhere: FindOptionsWhere<User> =
+        effectiveScope === "own" ? { id: user.id } : {};
+      const calcWhere: FindOptionsWhere<Calculation> =
+        effectiveScope === "own" ? { user: { id: user.id } } : {};
 
-      let avgRoiQuery = calcRepo
-        .createQueryBuilder("calc")
-        .select("AVG(calc.roiPercentage)", "avgRoi");
+      // ====================================================================
+      // 1. DATA QUERIES DARI DATABASE (Diterapkan Scoping)
+      // ====================================================================
 
-      // Injeksi WHERE untuk AVG ROI (Hanya jika scope = 'own')
-      if (effectiveScope === "own") {
-        // Asumsi nama kolom Foreign Key adalah 'userId' di tabel 'calculations'
-        avgRoiQuery = avgRoiQuery.where("calc.userId = :userId");
-      }
+      const totalUsers = await userRepo.count();
 
-      const avgRoiResult = await avgRoiQuery
-        .setParameters(queryParams)
-        .getRawOne();
-
-      const avgRoi = toFloat(avgRoiResult.avgRoi);
-
-      // ----------------------------------------------------
-      // Kueri Tambahan: Critical Calcs (Diterapkan Scoping)
-      // ----------------------------------------------------
-
+      // Kueri Critical Calcs (Diterapkan Scoping)
       let criticalCalcsQuery = calcRepo
         .createQueryBuilder("calc")
         .where("calc.roiPercentage < :minRoi");
 
-      // Injeksi AND WHERE untuk Critical Calcs (Hanya jika scope = 'own')
       if (effectiveScope === "own") {
         criticalCalcsQuery = criticalCalcsQuery.andWhere(
           "calc.userId = :userId"
@@ -68,9 +58,23 @@ export async function GET(req: NextRequest) {
       const criticalCalcs = await criticalCalcsQuery
         .setParameters(queryParams)
         .getCount();
-      const totalUsers = await userRepo.count();
 
-      // A. Top Users (5 User terbaru untuk list)
+      // Kueri Avg ROI (Diterapkan Scoping)
+      let avgRoiQuery = calcRepo
+        .createQueryBuilder("calc")
+        .select("AVG(calc.roiPercentage)", "avgRoi");
+
+      if (effectiveScope === "own") {
+        avgRoiQuery = avgRoiQuery.where("calc.userId = :userId");
+      }
+
+      const avgRoiResult = await avgRoiQuery
+        .setParameters(queryParams)
+        .getRawOne();
+
+      const avgRoi = toFloat(avgRoiResult.avgRoi);
+
+      // A. Top Users (5 User terbaru untuk list) - Tetap Full List (Untuk Admin)
       const topUsers = await userRepo.find({
         select: ["id", "name", "email", "avatarUrl", "createdAt"],
         order: { createdAt: "DESC" },
@@ -80,6 +84,8 @@ export async function GET(req: NextRequest) {
 
       // B. Ambil 5 user yang baru mendaftar (untuk Activity Log)
       const recentRegistrations = await userRepo.find({
+        // 👇 FIX SCOPING: Gunakan userWhere
+        where: userWhere,
         select: ["id", "name", "createdAt"],
         order: { createdAt: "DESC" },
         take: 5,
@@ -87,6 +93,8 @@ export async function GET(req: NextRequest) {
 
       // C. Ambil 5 perhitungan ROI terbaru (untuk Activity Log)
       const recentCalculations = await calcRepo.find({
+        // 👇 FIX SCOPING: Gunakan calcWhere
+        where: calcWhere,
         select: ["id", "roiPercentage", "createdAt"],
         order: { createdAt: "DESC" },
         take: 5,
