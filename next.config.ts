@@ -9,7 +9,6 @@ const nextConfig: NextConfig = {
 
   webpack: (config, { isServer, dev }) => {
     if (isServer && !dev) {
-      // ✅ Keep class names
       config.optimization = {
         ...config.optimization,
         minimize: true,
@@ -19,8 +18,8 @@ const nextConfig: NextConfig = {
               ...minimizer.options,
               terserOptions: {
                 ...minimizer.options?.terserOptions,
-                keep_classnames: true, // CRITICAL
-                keep_fnames: true, // CRITICAL
+                keep_classnames: true,
+                keep_fnames: true,
               },
             };
           }

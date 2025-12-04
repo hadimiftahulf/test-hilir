@@ -1,11 +1,10 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { Table, Tag, Typography, message, TableProps, Modal } from "antd"; // Import Modal untuk useModal
+import { Table, Tag, Typography, message, TableProps, Modal } from "antd";
 import Calculator from "@/modules/calculate/components/Calculator";
 import dayjs from "dayjs";
 
-// --- Tipe data (Wajib sync dengan Calculator.tsx) ---
 interface CalculationHistory {
   id: string;
   adSpend: number;
@@ -21,10 +20,8 @@ export default function CalculatePage() {
     null
   );
 
-  // 👇 1. SETUP HOOKS CONTEXT-AWARE
   const [messageApi, contextHolder] = message.useMessage();
 
-  // --- LOGIC FETCH HISTORY (Tidak Berubah) ---
   const fetchHistory = async () => {
     setLoading(true);
     try {
@@ -34,7 +31,7 @@ export default function CalculatePage() {
       setHistory(json.data || []);
     } catch (e) {
       console.error("Fetch History Error:", e);
-      // Gunakan messageApi di sini juga jika error
+
       messageApi.error("Gagal memuat riwayat perhitungan.");
     } finally {
       setLoading(false);
@@ -45,23 +42,20 @@ export default function CalculatePage() {
     fetchHistory();
   }, []);
 
-  // --- LOGIC ROW CLICK ---
   const handleHistorySelect = (record: CalculationHistory) => {
     setSelectedCalc(record);
-    // 👇 2. GUNAKAN INSTANCE: messageApi.info
+
     messageApi.info(
       `Data loaded for calculation ID: ${record.id.slice(0, 4)}...`
     );
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
 
-  // Helper untuk konversi data desimal dari DB (string) ke float
   const safeParseFloat = (v: string | number) => {
     const floatVal = parseFloat(String(v));
     return isNaN(floatVal) ? 0 : floatVal;
   };
 
-  // --- DEFINISI KOLOM TABEL ---
   const columns: TableProps<CalculationHistory>["columns"] = [
     {
       title: "Tanggal",
@@ -69,7 +63,7 @@ export default function CalculatePage() {
       width: 150,
       render: (v: string) => dayjs(v).format("DD MMM YYYY"),
     },
-    // ... (Kolom lainnya tetap sama, menggunakan safeParseFloat) ...
+
     {
       title: "Ad Spend",
       dataIndex: "adSpend",

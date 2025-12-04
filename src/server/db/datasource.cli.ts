@@ -8,7 +8,7 @@ const raw = process.env.DATABASE_URL_CLI || process.env.DATABASE_URL || "";
 if (!raw) throw new Error("Missing DATABASE_URL(_CLI)");
 
 const u = new URL(raw);
-if (u.hostname === "db") u.hostname = "localhost"; // aman untuk run dari host
+if (u.hostname === "db") u.hostname = "localhost";
 
 export default new DataSource({
   type: "postgres",

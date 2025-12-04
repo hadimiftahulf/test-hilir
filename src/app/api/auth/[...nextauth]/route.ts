@@ -16,7 +16,6 @@ export const authOptions: NextAuthOptions = {
       async authorize(credentials) {
         if (!credentials?.email || !credentials?.password) return null;
 
-        // Panggil logic pusat
         const user = await verifyUserLogin(
           credentials.email,
           credentials.password

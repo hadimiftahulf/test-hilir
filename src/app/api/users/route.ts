@@ -3,7 +3,7 @@ import { User } from "@/server/db/entities/User";
 import { createCollectionHandlers } from "@/server/lib/crud-factory";
 const handlers = createCollectionHandlers<User>({
   entity: User,
-  relations: ["roles"], // Load role user saat get list
+  relations: ["roles"],
   permissions: {
     read: "users:read",
     create: "users:create",
@@ -21,8 +21,6 @@ const handlers = createCollectionHandlers<User>({
     return data;
   },
   transform: (user) => {
-    // Hapus password hash dari response JSON
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const { passwordHash, ...cleanUser } = user;
     return cleanUser;
   },

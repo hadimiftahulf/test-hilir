@@ -3,7 +3,6 @@
 import { Form, Input, Button, Card, Typography, Divider } from "antd";
 import { MailOutlined, LockOutlined, UserOutlined } from "@ant-design/icons";
 
-// Interface props khusus untuk Register
 interface RegisterCardProps {
   title: string;
   subtitle?: string;

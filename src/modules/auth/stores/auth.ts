@@ -16,7 +16,7 @@ type AuthState = {
     remember?: boolean;
   }) => Promise<{ ok: boolean; message?: string }>;
   logout: () => Promise<void>;
-  // Helper methods
+
   isAuthenticated: () => boolean;
 };
 
@@ -90,6 +90,6 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       set({ loading: false });
     }
   },
-  // Helper methods
+
   isAuthenticated: () => !!get().user,
 }));

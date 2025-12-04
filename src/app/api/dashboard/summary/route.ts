@@ -9,12 +9,9 @@ import { FindOptionsWhere } from "typeorm";
 
 dayjs.extend(relativeTime);
 
-// Helper
 const toFloat = (val: any) => parseFloat(val || "0");
 
-// Endpoint untuk mengambil semua data yang dibutuhkan dashboard dalam 1x hit
 export async function GET(req: NextRequest) {
-  // Gunakan basePermission 'dashboard:read'. Wrapper akan menentukan effectiveScope.
   return withAuth(
     req,
     { basePermission: "dashboard:read" },
@@ -23,28 +20,19 @@ export async function GET(req: NextRequest) {
       const userRepo = AppDataSource.getRepository(User);
       const calcRepo = AppDataSource.getRepository(Calculation);
 
-      // Tentukan parameter yang akan digunakan
       const queryParams: { [key: string]: any } = { minRoi: 0 };
 
-      // Tambahkan user ID ke parameter jika scope adalah 'own'
       if (effectiveScope === "own") {
         queryParams.userId = user.id;
       }
 
-      // Tentukan Kriteria Where (untuk find() method)
-      // Jika scope = 'any', ini akan menjadi {}
       const userWhere: FindOptionsWhere<User> =
         effectiveScope === "own" ? { id: user.id } : {};
       const calcWhere: FindOptionsWhere<Calculation> =
         effectiveScope === "own" ? { user: { id: user.id } } : {};
 
-      // ====================================================================
-      // 1. DATA QUERIES DARI DATABASE (Diterapkan Scoping)
-      // ====================================================================
-
       const totalUsers = await userRepo.count();
 
-      // Kueri Critical Calcs (Diterapkan Scoping)
       let criticalCalcsQuery = calcRepo
         .createQueryBuilder("calc")
         .where("calc.roiPercentage < :minRoi");
@@ -59,7 +47,6 @@ export async function GET(req: NextRequest) {
         .setParameters(queryParams)
         .getCount();
 
-      // Kueri Avg ROI (Diterapkan Scoping)
       let avgRoiQuery = calcRepo
         .createQueryBuilder("calc")
         .select("AVG(calc.roiPercentage)", "avgRoi");
@@ -74,7 +61,6 @@ export async function GET(req: NextRequest) {
 
       const avgRoi = toFloat(avgRoiResult.avgRoi);
 
-      // A. Top Users (5 User terbaru untuk list) - Tetap Full List (Untuk Admin)
       const topUsers = await userRepo.find({
         select: ["id", "name", "email", "avatarUrl", "createdAt"],
         order: { createdAt: "DESC" },
@@ -82,28 +68,20 @@ export async function GET(req: NextRequest) {
         relations: ["roles"],
       });
 
-      // B. Ambil 5 user yang baru mendaftar (untuk Activity Log)
       const recentRegistrations = await userRepo.find({
-        // 👇 FIX SCOPING: Gunakan userWhere
         where: userWhere,
         select: ["id", "name", "createdAt"],
         order: { createdAt: "DESC" },
         take: 5,
       });
 
-      // C. Ambil 5 perhitungan ROI terbaru (untuk Activity Log)
       const recentCalculations = await calcRepo.find({
-        // 👇 FIX SCOPING: Gunakan calcWhere
         where: calcWhere,
         select: ["id", "roiPercentage", "createdAt"],
         order: { createdAt: "DESC" },
         take: 5,
-        relations: ["user"], // Wajib ambil relasi user untuk mapping nama
+        relations: ["user"],
       });
-
-      // ====================================================================
-      // 2. MAPPING & LOGIC
-      // ====================================================================
 
       const roiAlert =
         avgRoi < 0
@@ -114,7 +92,6 @@ export async function GET(req: NextRequest) {
               1
             )}%). Pertimbangkan scaling.`;
 
-      // MAPPING TOP USERS
       const formattedTopUsers = topUsers.map((u: any) => ({
         id: u.id,
         name: u.name,
@@ -124,7 +101,6 @@ export async function GET(req: NextRequest) {
         createdAt: u.createdAt,
       }));
 
-      // MAPPING ACTIVITIES (Registration)
       const registrationActivities = recentRegistrations.map((u: any) => ({
         timestamp: u.createdAt,
         user: u.name,
@@ -133,7 +109,6 @@ export async function GET(req: NextRequest) {
         color: "#3b82f6",
       }));
 
-      // MAPPING ACTIVITIES (Calculation)
       const calculationActivities = recentCalculations.map((c: any) => {
         const userName = c.user?.name || "Anonymous User";
         const roi = toFloat(c.roiPercentage);
@@ -147,7 +122,6 @@ export async function GET(req: NextRequest) {
         };
       });
 
-      // Gabungkan dan sort
       const allActivities = [
         ...registrationActivities,
         ...calculationActivities,
@@ -156,10 +130,6 @@ export async function GET(req: NextRequest) {
           (a, b) => dayjs(b.timestamp).valueOf() - dayjs(a.timestamp).valueOf()
         )
         .slice(0, 10);
-
-      // ====================================================================
-      // 3. FINAL RESPONSE
-      // ====================================================================
 
       const dashboardData = {
         kpis: [

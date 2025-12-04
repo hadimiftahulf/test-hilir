@@ -1,6 +1,6 @@
 import { Entity, Column, ManyToOne } from "typeorm";
 import { Base } from "./Base";
-// 👇 Gunakan 'import type'
+
 import type { User } from "./User";
 
 @Entity("calculations")
@@ -26,7 +26,6 @@ export class Calculation extends Base {
   @Column("decimal", { precision: 15, scale: 2 })
   totalProfit!: number;
 
-  // 👇 Gunakan STRING "User" dan STRING "calculations"
   @ManyToOne("User", "calculations", {
     onDelete: "CASCADE",
   })

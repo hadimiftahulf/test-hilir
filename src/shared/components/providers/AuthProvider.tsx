@@ -1,4 +1,3 @@
-// src/components/providers/AuthProvider.tsx
 "use client";
 
 import { useAuthStore } from "@auth/stores/auth";

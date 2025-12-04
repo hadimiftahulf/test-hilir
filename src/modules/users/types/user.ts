@@ -7,7 +7,7 @@ export interface User {
   id: string;
   name: string;
   email: string;
-  avatarUrl?: string; // Sesuai database
-  roles: Role[]; // Relasi ke role
+  avatarUrl?: string;
+  roles: Role[];
   createdAt: string;
 }

@@ -1,4 +1,3 @@
-// src/server/db/entities/Role.ts
 import { Entity, Column, ManyToMany, JoinTable } from "typeorm";
 import { Base } from "./Base";
 import { Permission } from "./Permission";

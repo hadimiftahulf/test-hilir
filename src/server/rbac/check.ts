@@ -1,6 +1,5 @@
 import { PermAction, PermScope } from "../db/entities/Permission";
 
-// src/server/rbac/check.ts
 export function can(
   permKeys: string[],
   resource: string,

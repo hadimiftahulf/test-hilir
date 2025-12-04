@@ -14,7 +14,7 @@ import {
   Card,
   Space,
   Pagination,
-  Modal, // Import Modal untuk tipe dan hook
+  Modal,
   message,
   Empty,
   Spin,
@@ -52,9 +52,8 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
   const t = useTranslations("employees");
   const tCommon = useTranslations("common");
 
-  // 👇 1. SETUP HOOKS (Wajib untuk Antd 5+)
-  const [modal, contextHolderModal] = Modal.useModal(); // Hook Modal
-  const [messageApi, contextHolderMessage] = message.useMessage(); // Hook Message
+  const [modal, contextHolderModal] = Modal.useModal();
+  const [messageApi, contextHolderMessage] = message.useMessage();
 
   const [q, setQ] = useState("");
   const [roleFilter, setRoleFilter] = useState<string | undefined>();
@@ -65,7 +64,6 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<User | null>(null);
 
-  // --- ACTIONS ---
   const handleAdd = () => {
     setEditingUser(null);
     setIsModalOpen(true);
@@ -77,7 +75,6 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
   };
 
   const handleDelete = (user: User) => {
-    // 👇 2. GUNAKAN INSTANCE 'modal' (huruf kecil), BUKAN 'Modal' (huruf besar)
     modal.confirm({
       title: t("actions.deleteTitle"),
       icon: <ExclamationCircleFilled />,
@@ -92,7 +89,6 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
           });
           if (!res.ok) throw new Error("Failed to delete");
 
-          // Gunakan messageApi juga
           messageApi.success(t("messages.deleteSuccess"));
           onRefresh();
         } catch (error) {
@@ -102,7 +98,6 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
     });
   };
 
-  // --- FILTERING ---
   const allRoles = useMemo(() => {
     const roles = new Set<string>();
     data.forEach((u) => u.roles.forEach((r) => roles.add(r.name)));
@@ -127,7 +122,6 @@ export default function UserList({ data, loading, onRefresh }: UserListProps) {
     return filtered.slice(start, start + PAGE_SIZE);
   }, [filtered, page]);
 
-  // --- RENDERERS ---
   const renderRoleTags = (roles: User["roles"]) => {
     if (!roles.length)
       return (

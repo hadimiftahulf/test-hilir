@@ -31,8 +31,8 @@ export default function RegisterPage() {
       {/* --- Register Container --- */}
       <div className="z-10 w-full max-w-[420px] p-4 animate-in fade-in slide-in-from-bottom-4 duration-700">
         <RegisterCard
-          title="Create Account" // t("title.register")
-          subtitle="Join us to manage your campaigns" // t("auth.registerSubtitle")
+          title="Create Account"
+          subtitle="Join us to manage your campaigns"
           onSubmit={onSubmit}
           submitting={submitting}
           footer={

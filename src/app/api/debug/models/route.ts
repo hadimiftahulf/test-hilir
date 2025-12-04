@@ -11,7 +11,6 @@ export async function GET() {
       );
     }
 
-    // Tembak endpoint List Models
     const response = await fetch(
       `https://generativelanguage.googleapis.com/v1beta/models?key=${apiKey}`,
       { method: "GET" }
@@ -19,12 +18,11 @@ export async function GET() {
 
     const data = await response.json();
 
-    // Kita filter hanya model yang bisa "generateContent"
     const availableModels = data.models
       ?.filter((m: any) =>
         m.supportedGenerationMethods.includes("generateContent")
       )
-      .map((m: any) => m.name); // output: models/gemini-pro, models/gemini-1.5-flash, dll
+      .map((m: any) => m.name);
 
     return NextResponse.json({
       count: availableModels?.length,

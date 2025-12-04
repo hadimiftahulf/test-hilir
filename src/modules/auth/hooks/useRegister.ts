@@ -9,7 +9,6 @@ export function useRegister() {
   const onSubmit = async (values: any) => {
     setSubmitting(true);
     try {
-      // Panggil API Register yang kita buat sebelumnya
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -17,7 +16,7 @@ export function useRegister() {
           name: values.name,
           email: values.email,
           password: values.password,
-          roleIds: "1197f313-476d-4645-8b29-1b0de6c50d1c", // Optional: Jika ingin default role
+          roleIds: "1197f313-476d-4645-8b29-1b0de6c50d1c",
         }),
       });
 
@@ -28,7 +27,7 @@ export function useRegister() {
       }
 
       message.success("Registration successful! Please login.");
-      router.push("/en/auth/login"); // Redirect ke login setelah sukses
+      router.push("/en/auth/login");
     } catch (error: any) {
       message.error(error.message);
     } finally {

@@ -5,9 +5,8 @@ import {
   SettingOutlined,
   BarChartOutlined,
 } from "@ant-design/icons";
-import { APP_ROUTES } from "@/config/routes"; // 👈 Import SSOT
+import { APP_ROUTES } from "@/config/routes";
 
-// Helper untuk cari config route berdasarkan path
 const getRoute = (pathKey: string) =>
   APP_ROUTES.find((r) => r.path === pathKey);
 

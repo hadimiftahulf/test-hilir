@@ -1,7 +1,7 @@
 import { type NextAuthOptions } from "next-auth";
 import Credentials from "next-auth/providers/credentials";
 import { compare } from "bcryptjs";
-import { initializeDB } from "@/server/db/datasource"; // ✅ gunakan helper
+import { initializeDB } from "@/server/db/datasource";
 import { User } from "@/server/db/entities/User";
 
 const isSecure =
@@ -22,7 +22,6 @@ export const authOptions: NextAuthOptions = {
         }
 
         try {
-          // ✅ Gunakan helper function
           const dataSource = await initializeDB();
           const userRepo = dataSource.getRepository(User);
 
@@ -78,7 +77,7 @@ export const authOptions: NextAuthOptions = {
         httpOnly: true,
         sameSite: "lax",
         path: "/",
-        // KUNCI PERBAIKAN: Gunakan flag yang kita hitung tadi
+
         secure: isSecure,
       },
     },

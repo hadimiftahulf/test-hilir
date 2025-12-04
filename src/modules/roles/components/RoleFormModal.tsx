@@ -42,12 +42,10 @@ export default function RoleFormModal({
   const [allPermissions, setAllPermissions] = useState<Permission[]>([]);
   const [loadingPerms, setLoadingPerms] = useState(false);
 
-  // State lokal untuk memantau perubahan checkbox agar fitur 'Select All' responsif
   const [checkedIds, setCheckedIds] = useState<string[]>([]);
 
   const isEdit = !!initialData;
 
-  // 1. Fetch Permissions
   useEffect(() => {
     if (open && allPermissions.length === 0) {
       setLoadingPerms(true);
@@ -59,7 +57,6 @@ export default function RoleFormModal({
     }
   }, [open, allPermissions.length, messageApi]);
 
-  // 2. Setup Form & State
   useEffect(() => {
     if (open) {
       form.resetFields();
@@ -69,7 +66,7 @@ export default function RoleFormModal({
             name: initialData.name,
             description: initialData.description,
           });
-          // Set state lokal untuk checked IDs
+
           setCheckedIds(initialData.permissions.map((p) => p.id));
         }, 100);
       } else {
@@ -78,11 +75,9 @@ export default function RoleFormModal({
     }
   }, [open, initialData, form]);
 
-  // 3. Grouping Logic
   const groupedPermissions = useMemo(() => {
     const groups: Record<string, Permission[]> = {};
     allPermissions.forEach((p) => {
-      // Capitalize: users -> Users
       const key = p.resource.charAt(0).toUpperCase() + p.resource.slice(1);
       if (!groups[key]) groups[key] = [];
       groups[key].push(p);
@@ -90,7 +85,6 @@ export default function RoleFormModal({
     return groups;
   }, [allPermissions]);
 
-  // 4. Handle "Select All" per Group
   const handleGroupSelectAll = (resourceKey: string, checked: boolean) => {
     const groupPerms = groupedPermissions[resourceKey];
     const groupIds = groupPerms.map((p) => p.id);
@@ -98,19 +92,16 @@ export default function RoleFormModal({
     let newCheckedIds = [...checkedIds];
 
     if (checked) {
-      // Tambahkan semua ID grup ini yang belum ada
       groupIds.forEach((id) => {
         if (!newCheckedIds.includes(id)) newCheckedIds.push(id);
       });
     } else {
-      // Hapus semua ID grup ini
       newCheckedIds = newCheckedIds.filter((id) => !groupIds.includes(id));
     }
 
     setCheckedIds(newCheckedIds);
   };
 
-  // 5. Handle Single Checkbox Change
   const handleSingleCheck = (id: string, checked: boolean) => {
     if (checked) {
       setCheckedIds((prev) => [...prev, id]);
@@ -119,7 +110,6 @@ export default function RoleFormModal({
     }
   };
 
-  // 6. Submit
   const handleSubmit = async () => {
     try {
       const values = await form.validateFields();
@@ -131,7 +121,7 @@ export default function RoleFormModal({
       const payload = {
         name: values.name,
         description: values.description,
-        permissionIds: checkedIds, // Gunakan state lokal checkedIds
+        permissionIds: checkedIds,
       };
 
       const res = await fetch(url, {
@@ -149,7 +139,6 @@ export default function RoleFormModal({
       onSuccess();
       onCancel();
     } catch (error: any) {
-      // Jika error validasi form, jangan tampilkan toast error API
       if (error?.errorFields) return;
       messageApi.error(error.message);
     } finally {
@@ -157,7 +146,6 @@ export default function RoleFormModal({
     }
   };
 
-  // Helper Renderer: Badge Warna Warni untuk Action
   const getActionColor = (action: string) => {
     switch (action) {
       case "read":
@@ -195,10 +183,10 @@ export default function RoleFormModal({
         confirmLoading={submitting}
         destroyOnHidden={true}
         maskClosable={false}
-        width={720} // Lebar yang nyaman
+        width={720}
         styles={{
           body: { maxHeight: "75vh", overflowY: "auto", paddingRight: 8 },
-        }} // Scrollable body
+        }}
       >
         <Form form={form} layout="vertical" preserve={false} className="mt-4">
           {/* --- Basic Info --- */}
@@ -230,7 +218,6 @@ export default function RoleFormModal({
           ) : (
             <div className="flex flex-col gap-3">
               {Object.entries(groupedPermissions).map(([resource, perms]) => {
-                // Logic Checkbox "Select All" per group
                 const groupIds = perms.map((p) => p.id);
                 const checkedCount = groupIds.filter((id) =>
                   checkedIds.includes(id)
@@ -274,7 +261,7 @@ export default function RoleFormModal({
                         return (
                           <div
                             key={p.id}
-                            onClick={() => handleSingleCheck(p.id, !isChecked)} // Klik area div juga bisa check
+                            onClick={() => handleSingleCheck(p.id, !isChecked)}
                             className={`
                               flex items-center gap-2 p-2 rounded-lg cursor-pointer border transition-all
                               ${
@@ -286,7 +273,6 @@ export default function RoleFormModal({
                           >
                             <Checkbox
                               checked={isChecked}
-                              // Prevent double toggle karena parent div onClick
                               onClick={(e) => e.stopPropagation()}
                               onChange={(e) =>
                                 handleSingleCheck(p.id, e.target.checked)

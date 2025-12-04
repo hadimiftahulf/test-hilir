@@ -25,6 +25,5 @@ export async function readThemeCookie(): Promise<ThemeCookie> {
   const fv = m?.[1];
   if (fv === "dark" || fv === "light") return fv;
 
-  // Default
   return "light";
 }

@@ -44,7 +44,6 @@ export default function RoleList({ data, loading, onRefresh }: RoleListProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [editingRole, setEditingRole] = useState<Role | null>(null);
 
-  // --- ACTIONS ---
   const handleAdd = () => {
     setEditingRole(null);
     setIsModalOpen(true);
@@ -78,12 +77,10 @@ export default function RoleList({ data, loading, onRefresh }: RoleListProps) {
     });
   };
 
-  // --- FILTERING ---
   const filtered = useMemo(() => {
     return data.filter((r) => r.name.toLowerCase().includes(q.toLowerCase()));
   }, [data, q]);
 
-  // --- COLUMNS ---
   const actions = (row: Role): MenuProps["items"] => [
     { key: "edit", label: t("actions.edit"), onClick: () => handleEdit(row) },
     {

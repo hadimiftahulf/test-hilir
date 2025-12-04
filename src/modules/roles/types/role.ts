@@ -1,17 +1,17 @@
 export interface Permission {
   id: string;
-  resource: string; // 'users', 'dashboard', 'settings'
-  action: string; // 'read', 'create', 'update'
-  scope: string; // 'any', 'own'
+  resource: string;
+  action: string;
+  scope: string;
   description?: string;
-  key: string; // 'users:read:any'
+  key: string;
 }
 
 export interface Role {
   id: string;
   name: string;
   description?: string;
-  permissions: Permission[]; // Relasi: Role punya banyak permission
+  permissions: Permission[];
   createdAt: string;
   updatedAt: string;
 }

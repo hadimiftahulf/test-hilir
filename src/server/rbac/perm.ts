@@ -1,4 +1,3 @@
-// src/server/rbac/perm.ts
 export const permKey = (
   r: string,
   a: "read" | "create" | "update" | "delete" | "manage",

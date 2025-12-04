@@ -6,7 +6,7 @@ export type MenuItem = {
   path: string;
   icon: React.ReactNode;
   badge?: number;
-  permission?: string; // Kunci permission opsional
+  permission?: string;
 };
 
 export type TodayAttendance = {

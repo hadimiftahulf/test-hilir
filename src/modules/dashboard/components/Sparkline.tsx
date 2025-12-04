@@ -2,7 +2,6 @@
 
 import React from "react";
 
-// 1. Update Prop Type agar menerima null/undefined
 interface SparklineProps {
   points: number[] | undefined | null;
 }
@@ -11,19 +10,15 @@ export default function Sparkline({ points: originalPoints }: SparklineProps) {
   const w = 100;
   const h = 32;
 
-  // 2. FIX UTAMA: Defensif Check dan Fallback ke Array Kosong
   const points = originalPoints || [];
 
-  // 3. Pengecekan data: Jika array kosong atau hanya 1 titik, kembalikan placeholder
   if (points.length < 2) {
     return <svg width={w} height={h} viewBox={`0 0 ${w} ${h}`} />;
   }
 
-  // Sekarang aman untuk menggunakan spread operator dan array methods
   const max = Math.max(...points);
   const min = Math.min(...points);
 
-  // Normalisasi data
   const norm = (v: number) =>
     max === min ? h / 2 : h - ((v - min) / (max - min)) * h;
 

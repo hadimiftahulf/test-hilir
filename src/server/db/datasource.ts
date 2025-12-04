@@ -7,22 +7,17 @@ import { Calculation } from "./entities/Calculation";
 import { ActivitySubscriber } from "./subscribers/ActivitySubscriber";
 import { Activity } from "./entities/Activity";
 
-// ✅ PENTING: Di production, JANGAN pakai path-based entities
-// Selalu import langsung entities sebagai class reference
 export const AppDataSource = new DataSource({
   type: "postgres",
   url: process.env.DATABASE_URL,
 
-  // ✅ Import langsung entities (BUKAN path string)
   entities: [User, Role, Permission, Calculation, Activity],
 
-  // ✅ CRITICAL: Di production HARUS false!
   synchronize: false,
 
-  // ✅ Untuk production, pakai migrations
   migrations: [__dirname + "/migrations/*.{ts,js}"],
   subscribers: [ActivitySubscriber],
-  migrationsRun: false, // Jalankan manual dengan CLI
+  migrationsRun: false,
 
   logging: process.env.NODE_ENV === "development",
 });

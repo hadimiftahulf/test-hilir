@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { Modal, Form, Input, Select, message } from "antd"; // Import message tetap
+import { Modal, Form, Input, Select, message } from "antd";
 import { useTranslations } from "next-intl";
 import { User, Role } from "../types/user";
 
@@ -21,7 +21,6 @@ export default function UserFormModal({
   const t = useTranslations("employees");
   const tCommon = useTranslations("common");
 
-  // 👇 1. Buat Hook Message Context-Aware
   const [messageApi, contextHolder] = message.useMessage();
 
   const [form] = Form.useForm();
@@ -35,14 +34,13 @@ export default function UserFormModal({
       fetch("/api/roles")
         .then((res) => res.json())
         .then((json) => setRoles(json.data || []))
-        // 👇 2. Ganti message.* dengan messageApi.*
+
         .catch(() => messageApi.error(t("messages.roleError")));
     }
   }, [open, t, messageApi]);
 
   useEffect(() => {
     if (open) {
-      // Reset form state agar bersih
       form.resetFields();
 
       if (initialData) {
@@ -78,7 +76,6 @@ export default function UserFormModal({
 
       if (!res.ok) throw new Error(json.error || t("messages.saveError"));
 
-      // 👇 2. Ganti message.* dengan messageApi.*
       messageApi.success(
         isEdit ? t("messages.updateSuccess") : t("messages.createSuccess")
       );
@@ -87,7 +84,7 @@ export default function UserFormModal({
       onCancel();
     } catch (error: any) {
       console.error(error);
-      // 👇 2. Ganti message.* dengan messageApi.*
+
       messageApi.error(error.message || t("messages.saveError"));
     } finally {
       setSubmitting(false);
@@ -95,7 +92,6 @@ export default function UserFormModal({
   };
 
   return (
-    // 👇 3. Bungkus dengan Fragment agar contextHolder bisa dirender
     <>
       {contextHolder}
 

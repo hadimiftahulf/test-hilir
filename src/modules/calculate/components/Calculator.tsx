@@ -31,7 +31,6 @@ import { useTranslations } from "next-intl";
 
 const { Title, Text, Paragraph } = Typography;
 
-// Tipe Data AI Response
 type AiResponse = {
   health_score: number;
   risk_level: "Low" | "Medium" | "High";
@@ -44,7 +43,6 @@ type AiResponse = {
   }[];
 };
 
-// Tipe Data History (Asumsi)
 interface CalculationHistory {
   id: string;
   adSpend: number;
@@ -66,7 +64,6 @@ export default function Calculator({
   const { token } = theme.useToken();
   const [messageApi, contextHolder] = message.useMessage();
 
-  // --- STATE ---
   const [adSpend, setAdSpend] = useState(1500000);
   const [cpr, setCpr] = useState(235000);
   const [aov, setAov] = useState(100000);
@@ -76,17 +73,14 @@ export default function Calculator({
   const [aiResult, setAiResult] = useState<AiResponse | null>(null);
   const [saving, setSaving] = useState(false);
 
-  // --- MATH ---
   const stats = useMemo(() => {
     const results = cpr > 0 ? adSpend / cpr : 0;
     const revenue = results * aov;
     const profit = revenue - adSpend;
     const roi = adSpend > 0 ? (profit / adSpend) * 100 : 0;
 
-    // Margin per Result = AOV - CPR
     const marginPerResult = aov - cpr;
 
-    // 🎯 CPR Target = 30% dari Harga Produk
     const cprTarget = productPrice * 0.3;
 
     return {
@@ -99,7 +93,6 @@ export default function Calculator({
     };
   }, [adSpend, cpr, aov, productPrice]);
 
-  // --- HISTORY AUTO-FILL ---
   useEffect(() => {
     if (selectedHistory) {
       setAdSpend(Math.round(selectedHistory.adSpend || 0));
@@ -117,7 +110,6 @@ export default function Calculator({
       maximumFractionDigits: 0,
     }).format(val);
 
-  // --- ACTIONS ---
   const handleAnalyzeAI = async () => {
     setAiLoading(true);
     setAiResult(null);
@@ -165,7 +157,6 @@ export default function Calculator({
     }
   };
 
-  // Helper Color untuk Risk Level
   const getRiskColor = (level: string) => {
     switch (level) {
       case "High":

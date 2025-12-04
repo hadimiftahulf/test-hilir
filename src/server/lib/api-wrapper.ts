@@ -1,11 +1,9 @@
 import { NextRequest, NextResponse } from "next/server";
 import { getToken } from "next-auth/jwt";
-import { getUserPermissions } from "../services/permission.service"; // Asumsi path service ini benar
+import { getUserPermissions } from "../services/permission.service";
 
-// --- NEW TYPES ---
 export type AccessScope = "any" | "own";
 
-// Tipe User yang akan diteruskan ke Factory/Route Handler
 export type AuthUser = {
   id: string;
   email: string;
@@ -14,12 +12,10 @@ export type AuthUser = {
   permissions: string[];
 };
 
-// Tipe untuk input options pada withAuth (menerima BASE permission, e.g., 'users:read')
 type ApiOptions = {
-  basePermission: string | undefined; // Wajib: Base permission key tanpa :scope
+  basePermission: string | undefined;
 };
 
-// Tipe fungsi logic yang menerima user dan scope yang sudah ditentukan
 type ApiLogic = (
   user: AuthUser,
   scope: AccessScope,
@@ -28,13 +24,11 @@ type ApiLogic = (
 
 export async function withAuth(
   req: NextRequest,
-  // Kita harus memastikan options tidak null, tapi Next.js Route Handlers
-  // biasanya tidak mengirim null, jadi kita tangani di dalam.
+
   options: ApiOptions | null,
   logic: ApiLogic
 ) {
   try {
-    // 1. AMBIL TOKEN & PERMISSION DARI DB
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET });
 
     if (!token) {
@@ -44,11 +38,9 @@ export async function withAuth(
       );
     }
 
-    // Ambil permission secara on-demand (sudah difix di previous turn agar token kecil)
     const permissions = await getUserPermissions(token.uid as string);
     const userPermissions = permissions || [];
 
-    // 2. CONSTRUCT USER OBJECT
     const user: AuthUser = {
       id: token.uid as string,
       email: token.email as string,
@@ -57,9 +49,8 @@ export async function withAuth(
       permissions: userPermissions,
     };
 
-    // 3. RBAC CHECK (Scoping Logic)
     const requiredBasePerm = options?.basePermission;
-    let effectiveScope: AccessScope = "any"; // Default jika tidak ada permission yang diminta
+    let effectiveScope: AccessScope = "any";
 
     if (requiredBasePerm) {
       const permAny = requiredBasePerm + ":any";
@@ -68,13 +59,11 @@ export async function withAuth(
       const hasAny = userPermissions.includes(permAny);
       const hasOwn = userPermissions.includes(permOwn);
 
-      // Tentukan Scope Efektif: ANY (Paling Tinggi) wins over OWN
       if (hasAny) {
         effectiveScope = "any";
       } else if (hasOwn) {
         effectiveScope = "own";
       } else {
-        // Jika tidak punya izin sama sekali
         return NextResponse.json(
           {
             error: "Forbidden",
@@ -85,7 +74,6 @@ export async function withAuth(
       }
     }
 
-    // 4. JALANKAN LOGIC, KIRIM SCOPE
     return await logic(user, effectiveScope, req);
   } catch (error) {
     console.error("API Error:", error);

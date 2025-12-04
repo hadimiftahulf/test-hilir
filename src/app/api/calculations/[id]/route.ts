@@ -5,8 +5,8 @@ export const { GET, PUT, DELETE } = createItemHandlers<Calculation>({
   entity: Calculation,
   permissions: {
     read: "calculate:read:own",
-    update: "calculate:create:own", // Biasanya history kalkulator jarang diedit, tapi disiapkan saja
-    delete: "calculate:delete:own", // User boleh hapus history sendiri
+    update: "calculate:create:own",
+    delete: "calculate:delete:own",
   },
   scopeField: "user",
 });

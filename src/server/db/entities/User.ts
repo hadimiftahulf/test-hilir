@@ -1,7 +1,7 @@
 import { Entity, Column, ManyToMany, JoinTable, OneToMany } from "typeorm";
 import { Base } from "./Base";
 import { Role } from "./Role";
-import { Calculation } from "./Calculation"; // ✅ Regular import, bukan 'import type'
+import { Calculation } from "./Calculation";
 
 @Entity("users")
 export class User extends Base {
@@ -21,7 +21,6 @@ export class User extends Base {
   @JoinTable({ name: "user_roles" })
   roles!: Role[];
 
-  // ✅ Sekarang bisa pakai arrow function
   @OneToMany(() => Calculation, (calculation) => calculation.user)
   calculations!: Calculation[];
 }
