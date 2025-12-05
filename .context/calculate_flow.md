@@ -80,3 +80,29 @@ Selisih antara nilai pesanan dan biaya untuk mendapatkan satu pesanan tersebut.
 ### 6. CPR Target
 Target biaya per hasil yang disarankan untuk menjaga profitabilitas (Rule of Thumb: 30% dari harga produk).
 -   **Rumus**: `CPR Target = Product Price * 0.3`
+
+## Google AI Mechanism
+Fitur "Analyze with AI" menggunakan power dari **Google Gemini 2.0 Flash** untuk memberikan wawasan strategis.
+
+### 1. Model Configuration
+-   **Model**: `gemini-2.0-flash`
+-   **Temperature**: `0.7` (Kreatif namun tetap konsisten)
+-   **Format**: `application/json` (Structured Output)
+
+### 2. Prompt Engineering Logic
+Sistem mengirimkan prompt dengan persona **"Elite Digital Marketing Strategist"** dengan pengalaman 15 tahun.
+-   **Input Data**: API mengirimkan data `Ad Spend`, `CPR`, `AOV`, `Profit`, dan `ROI` yang sudah diformat ke mata uang IDR.
+-   **Analisis Rule-based**:
+    -   Jika **ROI Negatif**: AI diinstruksikan fokus pada penurunan CPR atau kenaikan AOV (Fixing Phase).
+    -   Jika **ROI Positif (>20%)**: AI fokus pada strategi untuk menaikkan budget (Scaling Phase).
+-   **Output Structure**:
+    -   `health_score` (0-100): Skor kesehatan kampanye.
+    -   `risk_level`: Tingkat risiko (Low/Medium/High).
+    -   `action_plan`: Array rekomendasi tindakan konkret (Scaling/Fixing/Kill/Optimization).
+
+### 3. API Flow
+1.  Frontend mengirim payload `{ adSpend, cpr, aov, roi, profit }` ke `/api/ai/analyze`.
+2.  Backend memvalidasi sesi user (`withAuth`).
+3.  Backend menyusun prompt dinamis dan memanggil Google GenAI SDK.
+4.  Gemini mengembalikan respons JSON.
+5.  Frontend menampilkan hasil analisis dalam bentuk Score Card dan Action List.
