@@ -19,6 +19,59 @@ Untuk Resources seperti **Users**, **Roles**, dan **Permissions**, endpoint beri
 | `PUT` | `/api/[resource]/[id]` | Update item | `[resource]:update` |
 | `DELETE` | `/api/[resource]/[id]` | Delete item | `[resource]:delete` |
 
+## Data Model (ERD)
+
+Diagram berikut menggambarkan entitas database dan hubungannya, yang mendasari struktur payload API.
+
+```mermaid
+erDiagram
+    User ||--o{ Role : "has_roles"
+    Role ||--o{ Permission : "has_permissions"
+    User ||--o{ Calculation : "creates"
+    User ||--o{ Activity : "performs"
+    
+    User {
+        string id PK
+        string email
+        string name
+        string passwordHash
+        string avatarUrl
+        datetime createdAt
+    }
+
+    Role {
+        string id PK
+        string name
+        string description
+    }
+
+    Permission {
+        string id PK
+        string resource
+        string action
+        string scope
+        string key
+    }
+
+    Calculation {
+        string id PK
+        decimal adSpend
+        decimal costPerResult
+        decimal roiPercentage
+        decimal totalProfit
+        string userId FK
+    }
+
+    Activity {
+        string id PK
+        string entityName
+        string entityId
+        string action
+        jsonb details
+        string userId FK
+    }
+```
+
 ## Key Routes
 
 ### 1. Dashboard (`src/app/api/dashboard`)
