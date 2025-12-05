@@ -12,6 +12,7 @@ Aplikasi ini dibangun untuk memenuhi tantangan teknis sebagai *Full Stack Develo
 * **Deep Link History:** Mengklik riwayat perhitungan secara otomatis mengisi ulang formulir utama.
 * **Integrasi AI:** Analisis data perhitungan menggunakan **Google Gemini** (Future Vision).
 * **Efisiensi Kode (DRY):** Penggunaan **CRUD Factory** untuk otomatisasi semua operasi CRUD pada Entitas.
+* **Internationalization (i18n):** Dukungan multi-bahasa menggunakan **next-intl**.
 
 ---
 
@@ -31,6 +32,30 @@ Aplikasi ini menggunakan arsitektur **Monolitik App Router** untuk kinerja tingg
 | **Database** | **Supabase (PostgreSQL)** | Menggunakan **Transaction Pooler (Port 6543)** untuk stabilitas koneksi Serverless. |
 | **ORM** | **TypeORM** | Object-Relational Mapping, digunakan untuk *type safety* dan Migrations. |
 | **Styling** | **Ant Design + Tailwind CSS** | Professional UI/UX dengan *utility-first styling*. |
+| **Validation** | **Zod** | Schema validation untuk endpoint API dan form. |
+| **i18n** | **next-intl** | Internationalization routing dan translation management. |
+
+---
+
+## 📂 Struktur Proyek
+
+```bash
+src/
+├── app/          # Next.js App Router (Routes & API)
+├── modules/      # Feature-based Modules (Views, Hooks, Stores)
+│   ├── auth/
+│   ├── calculate/
+│   ├── dashboard/
+│   ├── roles/
+│   └── users/
+├── server/       # Backend Logic
+│   ├── db/       # Entities & Migrations
+│   ├── rbac/     # Permission Checks
+│   └── services/ # Business Logic Services
+├── shared/       # Shared Components (UI Libs) & Utils
+├── i18n/         # i18n Configuration
+└── messages/     # Translation JSONs (en.json, id.json)
+```
 
 ---
 
@@ -171,9 +196,7 @@ Cara termudah untuk mendeploy aplikasi ini adalah menggunakan **Vercel**. Pastik
 * Generate secret baru dengan: `openssl rand -base64 32`
 * Tambahkan ke `.env.local` dan Vercel environment variables
 
-### Migration Error
-* Hapus folder `dist` dan jalankan ulang: `yarn db:migrate`
-* Pastikan tidak ada duplikasi migration files
+
 
 ---
 
