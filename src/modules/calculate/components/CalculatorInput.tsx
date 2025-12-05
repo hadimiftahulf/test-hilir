@@ -78,7 +78,7 @@ export default function CalculatorInput({
               `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
             }
             parser={(value) =>
-              value?.replace(/Rp\s?|\./g, "") as unknown as number
+              value?.replace(/Rp\s?|(\.*)/g, "") as unknown as number
             }
           />
         </div>
@@ -107,7 +107,7 @@ export default function CalculatorInput({
               `Rp ${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, ".")
             }
             parser={(value) =>
-              value?.replace(/Rp\s?|\./g, "") as unknown as number
+              value?.replace(/Rp\s?|(\.*)/g, "") as unknown as number
             }
             onChange={(v) => onCprChange(v || 0)}
           />

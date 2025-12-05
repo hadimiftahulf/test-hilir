@@ -10,16 +10,17 @@ interface CalculationHistory {
   averageOrderValue: number;
   productPrice: number;
 }
+interface TableCaclulatorProps {
+  loading: boolean;
+  history: CalculationHistory[];
+  setSelectedCalc: (c: CalculationHistory) => void;
+}
 
 export default function TableCaclulator({
   loading,
   history,
   setSelectedCalc,
-}: {
-  loading: boolean;
-  history: CalculationHistory[];
-  setSelectedCalc: (c: CalculationHistory) => void;
-}) {
+}: TableCaclulatorProps) {
   const [messageApi] = message.useMessage();
   const handleHistorySelect = (record: CalculationHistory) => {
     setSelectedCalc(record);
