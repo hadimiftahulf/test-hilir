@@ -4,13 +4,10 @@ import React from "react";
 import {
   Card,
   Typography,
-  Tag,
   Progress,
   List,
   Avatar,
   Button,
-  Table,
-  Space,
   Divider,
 } from "antd";
 import {
@@ -25,7 +22,6 @@ import { useDashboardData } from "../hooks/useDashboardData";
 import KpiCard from "../components/KpiCard";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import Link from "next/link";
 
 const { Title, Text } = Typography;
 
