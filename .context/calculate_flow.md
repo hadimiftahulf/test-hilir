@@ -1,19 +1,19 @@
 # Calculate Module Documentation
 
 ## Overview
-The Calculate module allows users to simulate and track ad campaign performance. It includes a calculator for projecting ROI, profit, and other metrics based on ad spend, CPR, and AOV. It also integrates with AI for analysis and saves calculation history.
+Modul Calculate memungkinkan User untuk mensimulasikan dan melacak performance campaign iklan. Modul ini mencakup kalkulator untuk memproyeksikan ROI, Profit, dan metrik lainnya berdasarkan Ad Spend, CPR, dan AOV. Modul ini juga terintegrasi dengan AI untuk analisis dan menyimpan history perhitungan.
 
 ## Key Components
 
 ### Views
--   **CalculatorPage.tsx**: The main interface.
-    -   Inputs: Ad Spend, Cost Per Result (CPR), Average Order Value (AOV), Product Price.
-    -   Outputs: ROI, Profit, Revenue, etc.
+-   **CalculatorPage.tsx**: Interface utama.
+    -   Input: Ad Spend, Cost Per Result (CPR), Average Order Value (AOV), Product Price.
+    -   Output: ROI, Profit, Revenue, dll.
     -   Actions: Calculate AI Analysis, Save Calculation.
--   **TableCaclulator.tsx**: Displays the history of saved calculations in a table format.
+-   **TableCaclulator.tsx**: Menampilkan history perhitungan yang disimpan dalam format Table.
 
 ### Hooks
--   **useCalculatorStats.ts**: Contains the core business logic for the calculator.
+-   **useCalculatorStats.ts**: Berisi business logic inti untuk kalkulator.
     -   `results = adSpend / cpr`
     -   `revenue = results * aov`
     -   `profit = revenue - adSpend`
@@ -49,9 +49,9 @@ sequenceDiagram
     end
 ```
 
-## detailed Logic
-The `useCalculatorStats` hook is responsible for the instant feedback on the UI.
--   **Results**: `Math.floor(adSpend / cpr)` (if CPR > 0)
+## Logic Details
+Hook `useCalculatorStats` bertanggung jawab untuk instant feedback di UI.
+-   **Results**: `Math.floor(adSpend / cpr)` (jika CPR > 0)
 -   **Revenue**: `results * aov`
 -   **Profit**: `revenue - adSpend`
 -   **ROI**: `(profit / adSpend) * 100`

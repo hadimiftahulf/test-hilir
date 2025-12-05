@@ -1,7 +1,7 @@
 # Server Architecture
 
 ## Database (TypeORM)
-The project uses **TypeORM** with a relational schema. The `AppDataSource` is initialized in `src/server/db/datasource.ts`.
+Project ini menggunakan **TypeORM** dengan relational schema. `AppDataSource` diinisialisasi di `src/server/db/datasource.ts`.
 
 ### Entity Relationship Diagram (ERD)
 
@@ -46,15 +46,15 @@ erDiagram
 ```
 
 ## RBAC (Role-Based Access Control)
-Access control is implemented via the `Permission` and `Role` entities.
+Access control diimplementasikan melalui Entity `Permission` dan `Role`.
 
 ### Logic
-1.  **Permissions**: Defined by `resource` (e.g., 'user'), `action` (e.g., 'read'), and `scope` (e.g., 'any', 'own').
-2.  **Assignment**: Permissions are assigned to Roles. Roles are assigned to Users.
-3.  **Session Hydration**: On login (`auth.service.ts`), the system fetches all roles for the user and collects all unique permission keys. These keys are stored in the user session.
-4.  **Verification**: The `can(keys, resource, action, scope)` function checks if the user's session keys include the required permission.
+1.  **Permissions**: Didefinisikan berdasarkan `resource` (misalnya, 'user'), `action` (misalnya, 'read'), dan `scope` (misalnya, 'any', 'own').
+2.  **Assignment**: Permissions di-assign ke Roles. Roles di-assign ke Users.
+3.  **Session Hydration**: Saat login (`auth.service.ts`), sistem mengambil semua Roles untuk User tersebut dan mengumpulkan semua Permission Keys unik. Keys ini disimpan dalam session User.
+4.  **Verification**: Fungsi `can(keys, resource, action, scope)` mengecek apakah session keys User mencakup permission yang diperlukan.
 
 ## Services
-Business logic is encapsulated in services found in `src/server/services`.
--   **Auth Service** (`auth.service.ts`): Handles user verification against the database.
--   **Permission Service**: (Likely) manages creation/retrieval of permissions.
+Business logic di-encapsulate dalam Services yang ada di `src/server/services`.
+-   **Auth Service** (`auth.service.ts`): Menangani verifikasi User terhadap database.
+-   **Permission Service**: Mengelola creation/retrieval Permissions.

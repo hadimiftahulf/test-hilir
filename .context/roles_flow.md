@@ -1,37 +1,37 @@
 # Roles Module Documentation
 
 ## Overview
-The Roles module allows administrators to manage user roles and their associated permissions. It provides a UI to list, create, edit, and delete roles.
+Modul Roles memungkinkan Admin untuk mengelola User Roles dan Permissions terkait. Modul ini menyediakan UI untuk list, create, edit, dan delete Roles.
 
 ## Key Components
 
 ### Components
--   **RoleList.tsx**: The main component displaying the table of roles.
+-   **RoleList.tsx**: Component utama yang menampilkan Table Roles.
     -   Features: Search, Delete Role, Refresh.
     -   Columns: Name, Description, Permission Count.
--   **RoleFormModal.tsx**: A modal form to create or update a role.
+-   **RoleFormModal.tsx**: Modal form untuk create atau update Role.
     -   Inputs: Role Name, Description.
-    -   Permissions: Fetches all available permissions from `/api/permissions` and displays them grouped by resource. Allows bulk selection.
+    -   Permissions: Fetch semua permission yang tersedia dari `/api/permissions` dan menampilkannya di-group berdasarkan Resource. Memungkinkan Bulk Selection.
 
 ### Hooks
--   **useRoles.ts**: Fetches the list of roles from `/api/roles`.
+-   **useRoles.ts**: Fetch list roles dari `/api/roles`.
 
 ## Data Flow
 
 ### Viewing Roles
-1.  `RoleList` performs `useRoles()`.
-2.  `useRoles` calls `GET /api/roles`.
-3.  Data is displayed in the Table.
+1.  `RoleList` menjalankan `useRoles()`.
+2.  `useRoles` memanggil `GET /api/roles`.
+3.  Data ditampilkan di Table.
 
 ### Creating/Editing a Role
-1.  User clicks "Add Role" or "Edit".
-2.  `RoleFormModal` opens.
-3.  `RoleFormModal` fetches permissions from `/api/permissions` (once).
-4.  User fills details and selects permissions.
+1.  User klik "Add Role" atau "Edit".
+2.  `RoleFormModal` terbuka.
+3.  `RoleFormModal` fetch permissions dari `/api/permissions` (sekali).
+4.  User mengisi detail dan memilih permissions.
 5.  On Submit:
-    -   **Create**: `POST /api/roles` with `{ name, description, permissionIds }`.
-    -   **Update**: `PUT /api/roles/:id` with payload.
-6.  On success, `RoleList` refreshes the data.
+    -   **Create**: `POST /api/roles` dengan `{ name, description, permissionIds }`.
+    -   **Update**: `PUT /api/roles/:id` dengan payload.
+6.  On Success, `RoleList` melakukan refresh data.
 
 ## Mermaid Flowchart
 

@@ -1,37 +1,37 @@
 # Users Module Documentation
 
 ## Overview
-The Users module handles the management of system users (employees). It allows viewing, creating, updating, and deleting users, as well as assigning roles.
+Modul Users menangani management system Users (karyawan). Modul ini memungkinkan viewing, creating, updating, dan deleting Users, serta assigning Roles.
 
 ## Key Components
 
 ### Components
--   **UserList.tsx**: The main view.
-    -   Displays users in **Table** or **Grid** view.
-    -   Client-side searching (by name/email) and filtering (by role).
+-   **UserList.tsx**: View utama.
+    -   Menampilkan Users dalam mode **Table** atau **Grid**.
+    -   Client-side searching (by name/email) dan filtering (by role).
     -   Pagination support.
--   **UserFormModal.tsx**: Modal for Adding/Editing users.
-    -   Fields: Name, Email, Password (optional on edit), Roles.
-    -   Fetches available roles from `/api/roles` on open.
+-   **UserFormModal.tsx**: Modal untuk Adding/Editing Users.
+    -   Fields: Name, Email, Password (optional saat edit), Roles.
+    -   Fetch roles yang tersedia dari `/api/roles` saat open.
 
 ### Hooks
--   **useUsers.ts**: Fetches the list of users from `/api/users`.
+-   **useUsers.ts**: Fetch list Users dari `/api/users`.
 
 ## Data Flow
 
 ### Viewing Users
-1.  `UserList` mounts and calls `useUsers`.
-2.  `useUsers` calls `GET /api/users`.
-3.  Response JSON contains `User[]`.
-4.  `UserList` manages local state for filtering (`q`, `roleFilter`) and pagination.
+1.  `UserList` mounts dan memanggil `useUsers`.
+2.  `useUsers` memanggil `GET /api/users`.
+3.  Response JSON berisi `User[]`.
+4.  `UserList` mengelola local State untuk filtering (`q`, `roleFilter`) dan pagination.
 
 ### Managing Users
 -   **Add User**:
     -   Open `UserFormModal`.
     -   Fetch roles (`GET /api/roles`).
-    -   Submit `POST /api/users` with `{ name, email, password, roleIds }`.
+    -   Submit `POST /api/users` dengan `{ name, email, password, roleIds }`.
 -   **Edit User**:
-    -   Open `UserFormModal` with `initialData`.
+    -   Open `UserFormModal` dengan `initialData`.
     -   Submit `PUT /api/users/:id`.
 -   **Delete User**:
     -   Confirm dialog.

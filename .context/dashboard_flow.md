@@ -1,29 +1,29 @@
 # Dashboard Module Documentation
 
 ## Overview
-The Dashboard module is the central hub for the user, displaying key performance indicators (KPIs), ROI status, recent activities, and top-performing users. It fetches data separately and manages state via a dedicated Zustand store.
+Modul Dashboard adalah control center bagi User, menampilkan Key Performance Indicators (KPIs), ROI Status, Recent Activities, dan Top Performing Users. Modul ini melakukan fetching data secara terpisah dan mengelola State melalui Zustand Store khusus.
 
 ## Key Components
 
 ### Views
--   **DashboardView.tsx**: The main dashboard layout.
-    -   Displays `KpiCard`s.
-    -   Displays ROI Status with a circular progress bar.
-    -   lists Top Users and Recent Activities.
-    -   Provides quick actions (New Calculation, Add User).
+-   **DashboardView.tsx**: Layout dashboard utama.
+    -   Menampilkan `KpiCard`s.
+    -   Menampilkan ROI Status dengan circular progress bar.
+    -   List Top Users dan Recent Activities.
+    -   Menyediakan Quick Actions (New Calculation, Add User).
 
 ### State Management
--   **dashboardStore.ts**: A Zustand store that holds the dashboard data.
-    -   `kpis`: Array of metrics.
-    -   `activities`: Recent user actions.
-    -   `roiStatus`: Score and alert message.
-    -   `hydrate(data)`: Updates the store with fetched data.
+-   **dashboardStore.ts**: Zustand Store yang menyimpan data dashboard.
+    -   `kpis`: Array metrics.
+    -   `activities`: User actions terkini.
+    -   `roiStatus`: Score dan alert message.
+    -   `hydrate(data)`: Mengupdate Store dengan data yang di-fetch.
 
 ### Hooks
--   **useDashboardData.ts**: Manages data fetching and side effects.
-    -   `fetchData()`: calls `GET /api/dashboard/summary`.
-    -   On success, calls `store.hydrate(data)`.
-    -   Computes dynamic greeting based on time of day.
+-   **useDashboardData.ts**: Mengelola data fetching dan side effects.
+    -   `fetchData()`: memanggil `GET /api/dashboard/summary`.
+    -   On success, memanggil `store.hydrate(data)`.
+    -   Compute dynamic greeting berdasarkan waktu.
 
 ## Data Flow
 

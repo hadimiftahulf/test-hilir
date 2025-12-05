@@ -15,6 +15,12 @@ Aplikasi ini dibangun untuk memenuhi tantangan teknis sebagai *Full Stack Develo
 
 ---
 
+## 📚 Dokumentasi Lengkap
+
+Dokumentasi teknis terperinci mengenai alur modul, arsitektur server, dan referensi API dapat ditemukan di folder `.context`.
+
+👉 **[Buka Indeks Dokumentasi](./.context/project_overview.md)**
+
 ## 🛠️ Tech Stack & Arsitektur
 
 Aplikasi ini menggunakan arsitektur **Monolitik App Router** untuk kinerja tinggi dan penyederhanaan *deployment*.
