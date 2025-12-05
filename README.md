@@ -61,6 +61,16 @@ src/
 
 ## ⚙️ Persiapan Lingkungan Lokal
 
+### 0. Persiapan Awal (Prerequisites)
+
+Sebelum memulai, pastikan komputer Anda telah terinstal software berikut:
+
+*   **Node.js**: Versi `20.x` (LTS) atau lebih baru (Required by Next.js 16).
+    *   Cek versi: `node -v`
+*   **Package Manager**: `yarn` (Recommended) atau `npm`.
+    *   Install yarn: `npm install --global yarn`
+*   **Git**: Untuk cloning repository.
+
 ### 1. File Konfigurasi (`.env.local`)
 
 Copy file `.example.env` menjadi `.env.local` dan isi dengan kredensial Anda:
