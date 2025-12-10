@@ -4,6 +4,40 @@ import { withAuth } from "@/server/lib/api-wrapper";
 
 const genAI = new GoogleGenerativeAI(process.env.GOOGLE_API_KEY!);
 
+async function retryWithBackoff<T>(
+  fn: () => Promise<T>,
+  maxRetries: number = 3,
+  baseDelay: number = 1000
+): Promise<T> {
+  let lastError: any;
+
+  for (let i = 0; i < maxRetries; i++) {
+    try {
+      return await fn();
+    } catch (error: any) {
+      lastError = error;
+
+      if (error?.status === 429) {
+        const retryAfter = error?.errorDetails?.find((d: any) =>
+          d["@type"]?.includes("RetryInfo")
+        )?.retryDelay;
+
+        const delayMs = retryAfter
+          ? parseFloat(retryAfter) * 1000
+          : baseDelay * Math.pow(2, i);
+
+        console.log(`Rate limited. Retrying after ${delayMs}ms...`);
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+        continue;
+      }
+
+      throw error;
+    }
+  }
+
+  throw lastError;
+}
+
 export async function POST(req: NextRequest) {
   return withAuth(req, null, async (user, _scope, request) => {
     try {
@@ -11,7 +45,7 @@ export async function POST(req: NextRequest) {
       const { adSpend, cpr, aov, roi, profit } = body;
 
       const model = genAI.getGenerativeModel({
-        model: "gemini-2.0-flash",
+        model: "gemini-2.5-flash-lite",
         generationConfig: {
           responseMimeType: "application/json",
           temperature: 0.7,
@@ -65,10 +99,14 @@ export async function POST(req: NextRequest) {
         - Berikan "health_score" yang logis berdasarkan ROI.
       `;
 
-      const result = await model.generateContent(prompt);
+      const result = await retryWithBackoff(
+        () => model.generateContent(prompt),
+        3,
+        1000
+      );
+
       const response = result.response;
       const text = response.text();
-
       const data = JSON.parse(text);
 
       return NextResponse.json({
@@ -77,6 +115,21 @@ export async function POST(req: NextRequest) {
       });
     } catch (error: any) {
       console.error("Gemini AI Error:", error);
+
+      if (error?.status === 429) {
+        return NextResponse.json(
+          {
+            error: "Rate Limit Exceeded",
+            details:
+              "Quota API Gemini habis. Mohon coba lagi nanti atau upgrade ke paid plan.",
+            retryAfter:
+              error?.errorDetails?.find((d: any) =>
+                d["@type"]?.includes("RetryInfo")
+              )?.retryDelay || "1 menit",
+          },
+          { status: 429 }
+        );
+      }
 
       const errorMessage = error?.message || "Terjadi kesalahan analisis.";
 
